@@ -58,5 +58,5 @@ export const Hotels = [
         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/769522675.jpg?k=d9be3ad2ed78a622f8246ed4837a4ed417934ce1a2226b3d476ef6c4e6cffdaf&o=",
         description: "Cet hôtel 5 étoiles assure des services d’étage et de concierge. Vous pourrez également profiter d’un spa et centre de bien-être comprenant une salle de sport, des piscines intérieure et extérieure, un sauna, un bain turc ainsi qu’une terrasse",
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
-    },
+    }
 ]
