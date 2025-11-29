@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import HotelDetails from './pages/HotelDetails'
 import MyReservations from './pages/MyReservations'
 import NavBar from './components/NavBar'
+import Favorites from './pages/Favorites'
 
 function App() {
 
@@ -13,7 +14,8 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/hotel-details:id" element={<HotelDetails />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/hotels/id" element={<HotelDetails />} />
           <Route path="/my-reservations" element={<MyReservations />} />
         </Routes>
       </main>
