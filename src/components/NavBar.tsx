@@ -1,15 +1,59 @@
-import { Link } from "react-router"
+import { Link, NavLink } from "react-router";
+
 
 function NavBar() {
-    return <nav>
-        <div>
-            <Link to="/"> Hotel App </Link>
-        </div>
-        <div>
-            <Link to="/">Home</Link>
-            <Link to="/hotel-details" >Hotel Details</Link>
-            <Link to="/my-reservations">My Reservations</Link>
-        </div>
-    </nav>
+    return (
+        <nav className="sticky top-0 z-50 bg-white shadow-md">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+                {/* Logo / titre */}
+                <Link
+                    to="/"
+                    className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition"
+                >
+                    Hotel<span className="text-blue-500">App</span>
+                </Link>
+
+                {/* Liens de navigation */}
+                <div className="flex items-center gap-6">
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            `text-sm font-medium transition ${isActive
+                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                : "text-gray-600 hover:text-blue-600"
+                            }`
+                        }
+                    >
+                        Home
+                    </NavLink>
+
+                    <NavLink
+                        to="/favorites"
+                        className={({ isActive }) =>
+                            `text-sm font-medium transition ${isActive
+                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                : "text-gray-600 hover:text-blue-600"
+                            }`
+                        }
+                    >
+                        Favorites
+                    </NavLink>
+
+                    <NavLink
+                        to="/my-reservations"
+                        className={({ isActive }) =>
+                            `text-sm font-medium transition ${isActive
+                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                : "text-gray-600 hover:text-blue-600"
+                            }`
+                        }
+                    >
+                        My Reservations
+                    </NavLink>
+                </div>
+            </div>
+        </nav>
+    );
 }
-export default NavBar
+
+export default NavBar;
