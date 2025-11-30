@@ -1,8 +1,8 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom";
 import { Hotels } from "../data/mockHotels";
 import type { Hotel } from "../types";
 
-// petit helper: mappe un amenity -> émoji sympa
+// mappe un amenity -> émoji sympa
 const amenityIcon = (a: string) => {
     const key = a.toLowerCase();
     if (key.includes("wi-fi") || key.includes("wifi")) return "📶";
@@ -19,15 +19,13 @@ const amenityIcon = (a: string) => {
 
 export default function HotelDetails() {
     const { id } = useParams();
-    const found: Hotel | undefined = Hotels.find(h => h.id === id);
+    const found: Hotel | undefined = Hotels.find((h) => h.id === id);
 
     if (!found) {
         return (
-            <div className="mx-auto max-w-4xl px-6 py-16 text-center">
+            <div className="mx-auto max-w-4xl px-4 py-16 md:px-6 text-center">
                 <h1 className="text-2xl font-bold text-gray-900">Hôtel non trouvé</h1>
-                <p className="mt-2 text-gray-600">
-                    L’ID « {id} » ne correspond à aucun hôtel.
-                </p>
+                <p className="mt-2 text-gray-600">L’ID « {id} » ne correspond à aucun hôtel.</p>
                 <Link
                     to="/"
                     className="mt-6 inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
@@ -39,59 +37,54 @@ export default function HotelDetails() {
     }
 
     return (
-        <div className="mx-auto max-w-6xl px-6 py-10">
-            {/* fil d’ariane simple */}
-            <div className="mb-6 flex items-center gap-2 text-sm">
-                <Link to="/" className="text-gray-600 hover:text-blue-600 transition">Accueil</Link>
+        <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:py-10">
+            {/* Fil d’Ariane */}
+            <div className="mb-5 md:mb-6 flex items-center gap-2 text-sm">
+                <Link to="/" className="text-gray-600 hover:text-blue-600 transition">
+                    Accueil
+                </Link>
                 <span className="text-gray-400">/</span>
                 <span className="text-gray-900 font-medium">{found.name}</span>
             </div>
 
-            {/* image principale */}
+            {/* Image principale */}
             <div className="overflow-hidden rounded-2xl bg-white shadow-md">
                 <img
                     src={found.image}
-                    alt={found.name}
-                    className="h-[360px] w-full object-cover md:h-[460px]"
+                    alt={`${found.name} — ${found.location}`}
+                    className="h-[260px] w-full object-cover md:h-[360px] lg:h-[460px]"
                     loading="eager"
                 />
             </div>
 
-            {/* bloc infos */}
-            <section className="mt-8 grid gap-8 lg:grid-cols-5">
-                {/* colonne texte */}
+            {/* Bloc infos */}
+            <section className="mt-6 md:mt-8 grid gap-6 lg:grid-cols-5 lg:gap-8">
+                {/* Colonne texte */}
                 <div className="lg:col-span-3">
-                    <h1 className="text-2xl font-bold text-gray-900">{found.name}</h1>
+                    <h1 className="text-xl md:text-2xl font-bold text-gray-900">{found.name}</h1>
                     <p className="mt-1 text-gray-600">{found.location}</p>
 
-                    <div className="mt-4 flex flex-wrap items-center gap-4">
-                        <div className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm shadow">
+                    <div className="mt-4 flex flex-wrap items-center gap-3">
+                        <div className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm shadow-sm">
                             <span className="text-amber-500">★</span>
-                            <span className="font-medium text-gray-800">
-                                {found.rating.toFixed(1)}
-                            </span>
+                            <span className="font-medium text-gray-800">{found.rating.toFixed(1)}</span>
                         </div>
-
-                        <div className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm shadow">
+                        <div className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm shadow-sm">
                             <span>💶</span>
-                            <span className="font-medium text-gray-800">
-                                {found.price} € / nuit
-                            </span>
+                            <span className="font-medium text-gray-800">{found.price} € / nuit</span>
                         </div>
                     </div>
 
-                    <p className="mt-6 text-gray-700 leading-relaxed">
-                        {found.description}
-                    </p>
+                    <p className="mt-5 md:mt-6 text-gray-700 leading-relaxed">{found.description}</p>
 
-                    {/* amenities */}
-                    <div className="mt-8">
-                        <h2 className="text-lg font-semibold text-gray-900">Équipements</h2>
+                    {/* Amenities */}
+                    <div className="mt-6 md:mt-8">
+                        <h2 className="text-base md:text-lg font-semibold text-gray-900">Équipements</h2>
                         <ul className="mt-3 flex flex-wrap gap-2">
                             {found.amenities.map((a) => (
                                 <li
                                     key={a}
-                                    className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm text-gray-800"
+                                    className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm text-gray-800 ring-1 ring-gray-200"
                                 >
                                     <span>{amenityIcon(a)}</span>
                                     <span>{a}</span>
@@ -101,9 +94,9 @@ export default function HotelDetails() {
                     </div>
                 </div>
 
-                {/* panneau action / réservation (placeholder) */}
+                {/* Panneau action / réservation */}
                 <aside className="lg:col-span-2">
-                    <div className="rounded-2xl bg-white p-6 shadow-md">
+                    <div className="rounded-2xl bg-white p-5 md:p-6 shadow-md lg:sticky lg:top-24">
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-bold text-gray-900">{found.price}€</span>
                             <span className="text-sm text-gray-500">/ nuit</span>
