@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import { Hotels } from "../data/mockHotels";
 import type { Hotel } from "../types";
+import { useContext } from "react";
+import { HotelContext } from "../context/HotelContext";
 
 // mappe un amenity -> émoji sympa
 const amenityIcon = (a: string) => {
@@ -18,8 +19,14 @@ const amenityIcon = (a: string) => {
 };
 
 export default function HotelDetails() {
+    const ctx = useContext(HotelContext);
+    if (!ctx) {
+        return <p>Erreur : HotelProvider manquant ⚠️</p>
+    }
+    const { getHotelById } = ctx;
+
     const { id } = useParams();
-    const found: Hotel | undefined = Hotels.find((h) => h.id === id);
+    const found: Hotel | undefined = id ? getHotelById(id) : undefined;
 
     if (!found) {
         return (

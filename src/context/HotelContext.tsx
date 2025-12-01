@@ -1,13 +1,11 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useMemo } from "react";
 import type { Hotel } from "../types";
 import { Hotels as MOCK_HOTELS } from "../data/mockHotels"
 type HotelContextValue = {
     hotels: Hotel[],
     getHotelById: (id: string) => Hotel | undefined
 }
-const HotelContext = createContext<HotelContextValue | undefined>(undefined);
-
-export const useHotelContext = () => useContext(HotelContext);
+export const HotelContext = createContext<HotelContextValue | undefined>(undefined);
 
 export const HotelProvider = ({ children }: { children: React.ReactNode }) => {
     const hotels = MOCK_HOTELS;

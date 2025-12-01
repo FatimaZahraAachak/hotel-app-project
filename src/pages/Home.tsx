@@ -1,8 +1,14 @@
+import { useContext } from "react";
 import HotelCard from "../components/HotelCard";
-import { Hotels } from "../data/mockHotels";
+import { HotelContext } from "../context/HotelContext";
 
 function Home() {
-    const hasData = Hotels && Hotels.length > 0;
+    const ctx = useContext(HotelContext);
+    if (!ctx) {
+        return <p>Erreur : HotelProvider manquant ⚠️</p>
+    }
+    const { hotels } = ctx;
+    const hasData = hotels && hotels.length > 0;
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:py-10">
@@ -15,7 +21,7 @@ function Home() {
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {hasData ? (
-                    Hotels.map((hotel) => (
+                    hotels.map((hotel) => (
                         <div key={hotel.id} className="h-full">
                             <HotelCard hotel={hotel} />
                         </div>
