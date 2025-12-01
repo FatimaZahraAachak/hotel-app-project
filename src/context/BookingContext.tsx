@@ -11,8 +11,6 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     const addReservation = (res: Reservation) => {
         setReservations(prev => [...prev, res]);
     }
-
-
     const value = {
         reservations,
         addReservation
