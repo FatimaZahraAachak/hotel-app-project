@@ -19,6 +19,7 @@ const amenityIcon = (a: string) => {
 };
 
 export default function HotelDetails() {
+    
     const ctx = useContext(HotelContext);
     if (!ctx) {
         return <p>Erreur : HotelProvider manquant ⚠️</p>
