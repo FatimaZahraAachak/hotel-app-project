@@ -5,6 +5,8 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router'
 import { HotelProvider } from './context/HotelContext.tsx'
 import { BookingProvider } from './context/BookingContext.tsx'
+import Modal from 'react-modal';
+Modal.setAppElement("#root");
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
