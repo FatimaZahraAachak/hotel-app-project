@@ -16,10 +16,8 @@ function BookingMoadl({ open, onClose }: BookingModalProps) {
             onClose={onClose}
             center
         >
-            <div >
-                <div >
-                    <h3 >Réserver votre séjour</h3>
-                </div>
+            <div className="w-[500px] h-[400px] flex flex-col gap-5 items-center ">
+                <h3 className="font-bold">Réserver votre séjour</h3>
                 <BookingForm />
             </div>
         </Modal>
