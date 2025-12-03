@@ -2,8 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import type { Hotel } from "../types";
 import { useContext, useState } from "react";
 import { HotelContext } from "../context/HotelContext";
-import Modal from "react-responsive-modal";
-import BookingForm from "../components/BookingForm";
+import BookingMoadl from "../components/BookingModal";
 
 // mappe un amenity -> émoji sympa
 const amenityIcon = (a: string) => {
@@ -21,7 +20,7 @@ const amenityIcon = (a: string) => {
 };
 
 export default function HotelDetails() {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
 
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
@@ -51,7 +50,6 @@ export default function HotelDetails() {
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:py-10">
-            {/* Fil d’Ariane */}
             <div className="mb-5 md:mb-6 flex items-center gap-2 text-sm">
                 <Link to="/" className="text-gray-600 hover:text-blue-600 transition">
                     Accueil
@@ -59,8 +57,6 @@ export default function HotelDetails() {
                 <span className="text-gray-400">/</span>
                 <span className="text-gray-900 font-medium">{found.name}</span>
             </div>
-
-            {/* Image principale */}
             <div className="overflow-hidden rounded-2xl bg-white shadow-md">
                 <img
                     src={found.image}
@@ -69,10 +65,7 @@ export default function HotelDetails() {
                     loading="eager"
                 />
             </div>
-
-            {/* Bloc infos */}
             <section className="mt-6 md:mt-8 grid gap-6 lg:grid-cols-5 lg:gap-8">
-                {/* Colonne texte */}
                 <div className="lg:col-span-3">
                     <h1 className="text-xl md:text-2xl font-bold text-gray-900">{found.name}</h1>
                     <p className="mt-1 text-gray-600">{found.location}</p>
@@ -90,7 +83,6 @@ export default function HotelDetails() {
 
                     <p className="mt-5 md:mt-6 text-gray-700 leading-relaxed">{found.description}</p>
 
-                    {/* Amenities */}
                     <div className="mt-6 md:mt-8">
                         <h2 className="text-base md:text-lg font-semibold text-gray-900">Équipements</h2>
                         <ul className="mt-3 flex flex-wrap gap-2">
@@ -107,7 +99,6 @@ export default function HotelDetails() {
                     </div>
                 </div>
 
-                {/* Panneau action / réservation */}
                 <aside className="lg:col-span-2">
                     <div className="rounded-2xl bg-white p-5 md:p-6 shadow-md lg:sticky lg:top-24">
                         <div className="flex items-baseline gap-2">
@@ -123,9 +114,8 @@ export default function HotelDetails() {
                         >
                             Réserver maintenant
                         </button>
-                        <Modal open={open} onClose={onCloseModal} center>
-                            <BookingForm />
-                        </Modal>
+                        <BookingMoadl open={open}
+                            onClose={onCloseModal} />
                         <button
                             className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 transition"
                             type="button"
