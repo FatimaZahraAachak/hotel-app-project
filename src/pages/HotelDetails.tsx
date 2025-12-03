@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import type { Hotel } from "../types";
 import { useContext, useState } from "react";
 import { HotelContext } from "../context/HotelContext";
+import MyModal from "../components/BookingModal";
 
 // mappe un amenity -> émoji sympa
 const amenityIcon = (a: string) => {
@@ -19,7 +20,7 @@ const amenityIcon = (a: string) => {
 };
 
 export default function HotelDetails() {
-    const [showModal, setShowModal] = useState<boolean>(false)
+    const [showModal, setShowModal] = useState<boolean>(false);
     const ctx = useContext(HotelContext);
     if (!ctx) {
         return <p>Erreur : HotelProvider manquant ⚠️</p>
@@ -121,6 +122,7 @@ export default function HotelDetails() {
                         >
                             Réserver maintenant
                         </button>
+                        <MyModal isOpen={showModal} />
                         <button
                             className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 transition"
                             type="button"
