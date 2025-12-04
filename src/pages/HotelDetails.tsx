@@ -30,7 +30,8 @@ export default function HotelDetails() {
     }
     const { getHotelById } = ctx;
 
-    const { id } = useParams();
+    const { id: _id } = useParams();
+    const id = Number(_id);
     const found: Hotel | undefined = id ? getHotelById(id) : undefined;
 
     if (!found) {
@@ -115,7 +116,7 @@ export default function HotelDetails() {
                             Réserver maintenant
                         </button>
                         <BookingMoadl open={open}
-                            onClose={onCloseModal} />
+                            onClose={onCloseModal} id={id} />
                         <button
                             className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 transition"
                             type="button"

@@ -1,14 +1,25 @@
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+type BookingFormProps = {
+    id: Number
+}
 
-function BookingForm() {
+function BookingForm({ id }: BookingFormProps) {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [name, setName] = useState<string>("");
     const [guests, setGuests] = useState<number>(1);
     const handleSubmit = (e: any) => {
         e.preventDefault();
+    }
+    const newReservation = {
+        id: Date.now(),
+        hotelId: id,
+        startDate: startDate,
+        endDate: endDate,
+        guestName: name,
+        totalPrice: '100$'
     }
     return (
         <form onSubmit={handleSubmit} className='flex  flex-col items-center gap-3'>

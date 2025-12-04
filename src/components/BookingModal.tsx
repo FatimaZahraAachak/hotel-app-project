@@ -3,11 +3,12 @@ import BookingForm from "./BookingForm"
 import 'react-responsive-modal/styles.css'
 
 type BookingModalProps = {
+    id: number,
     open: boolean,
     onClose: () => void
 }
 
-function BookingMoadl({ open, onClose }: BookingModalProps) {
+function BookingMoadl({ open, onClose, id }: BookingModalProps) {
 
 
     return (
@@ -18,7 +19,7 @@ function BookingMoadl({ open, onClose }: BookingModalProps) {
         >
             <div className="w-[500px] h-[400px] flex flex-col gap-5 items-center ">
                 <h3 className="font-bold">Réserver votre séjour</h3>
-                <BookingForm />
+                <BookingForm id={id} />
             </div>
         </Modal>
     )

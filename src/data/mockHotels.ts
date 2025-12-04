@@ -1,6 +1,6 @@
 export const Hotels = [
     {
-        id: "1",
+        id: 1,
         name: "Sea Breeze Resort",
         location: "Nice, France",
         price: 180,
@@ -10,7 +10,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus"]
     },
     {
-        id: "2",
+        id: 2,
         name: "Hotel Sofitel Agadir Thalassa Sea & Spa",
         location: "Agadir, Maroc",
         price: 200,
@@ -20,7 +20,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "3",
+        id: 3,
         name: "Royal Mansour Marrakech",
         location: "Marrakech, Maroc",
         price: 300,
@@ -30,7 +30,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "4",
+        id: 4,
         name: "Hotel Le Golf D'Essaouira & Spa",
         location: "Essaouira, Maroc",
         price: 250,
@@ -40,7 +40,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "5",
+        id: 5,
         name: "Milaidhoo Maldives",
         location: "Maldives",
         price: 4000,
@@ -50,7 +50,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "6",
+        id: 6,
         name: "Wyndham Istanbul Old City",
         location: "Istanbul, Turquie",
         price: 161,
@@ -60,7 +60,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "7",
+        id: 7,
         name: "Hilton Dubai Jumeirah",
         location: "Dubaï, Émirats arabes unis",
         price: 320,
@@ -70,7 +70,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Plage privée", "SPA"]
     },
     {
-        id: "8",
+        id: 8,
         name: "Four Seasons Bora Bora",
         location: "Bora Bora, Polynésie française",
         price: 2200,
@@ -80,7 +80,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "9",
+        id: 9,
         name: "The Ritz-Carlton Kyoto",
         location: "Kyoto, Japon",
         price: 500,
@@ -90,7 +90,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "SPA", "Petit déjeuner inclus"]
     },
     {
-        id: "10",
+        id: 10,
         name: "Santorini Secret Suites & Spa",
         location: "Santorin, Grèce",
         price: 700,
@@ -100,7 +100,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "SPA"]
     },
     {
-        id: "11",
+        id: 11,
         name: "Hotel Eden Rome",
         location: "Rome, Italie",
         price: 350,
@@ -110,7 +110,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "12",
+        id: 12,
         name: "Mandarin Oriental Bangkok",
         location: "Bangkok, Thaïlande",
         price: 280,
@@ -120,7 +120,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "13",
+        id: 13,
         name: "The Plaza New York",
         location: "New York, USA",
         price: 800,
@@ -130,7 +130,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "14",
+        id: 14,
         name: "Burj Al Arab Jumeirah",
         location: "Dubaï, Émirats arabes unis",
         price: 1500,
@@ -140,7 +140,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "Petit déjeuner inclus", "SPA"]
     },
     {
-        id: "15",
+        id: 15,
         name: "Fairmont Banff Springs",
         location: "Alberta, Canada",
         price: 400,
@@ -150,7 +150,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "SPA", "Petit déjeuner inclus"]
     },
     {
-        id: "16",
+        id: 16,
         name: "Hotel Splendido Portofino",
         location: "Portofino, Italie",
         price: 950,
@@ -160,7 +160,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "SPA"]
     },
     {
-        id: "17",
+        id: 17,
         name: "Anantara Uluwatu Bali Resort",
         location: "Bali, Indonésie",
         price: 480,
@@ -170,7 +170,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "SPA"]
     },
     {
-        id: "18",
+        id: 18,
         name: "Hotel Arctic",
         location: "Ilulissat, Groenland",
         price: 260,
@@ -180,7 +180,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Petit déjeuner inclus"]
     },
     {
-        id: "19",
+        id: 19,
         name: "Marina Bay Sands",
         location: "Singapour",
         price: 900,
@@ -190,7 +190,7 @@ export const Hotels = [
         amenities: ["Wi-Fi", "Piscine", "SPA"]
     },
     {
-        id: "20",
+        id: 20,
         name: "Le Bristol Paris",
         location: "Paris, France",
         price: 1200,
