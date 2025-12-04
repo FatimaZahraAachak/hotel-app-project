@@ -34,7 +34,7 @@ function BookingForm() {
                         selected={endDate}
                         onChange={(date) => setEndDate(date)}
                         disabled={!startDate}
-                        minDate={startDate ? startDate : undefined}
+                        minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : undefined}
                         placeholderText="Choisissez une date"
                         className=' border border-gray-300'
                     />
