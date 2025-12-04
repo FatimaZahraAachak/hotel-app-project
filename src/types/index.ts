@@ -11,8 +11,8 @@ export interface Hotel {
 export interface Reservation {
     id: number;
     hotelId: number;
-    startDate: string; // Format ISO YYYY-MM-DD
-    endDate: string;
+    startDate: Date | null; 
+    endDate: Date | null;
     guestName: string;
     totalPrice: number;
 }

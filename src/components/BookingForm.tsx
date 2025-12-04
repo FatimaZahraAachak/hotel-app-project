@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { BookingContext } from '../context/BookingContext';
+
 type BookingFormProps = {
-    id: Number
+    id: number
 }
 
 function BookingForm({ id }: BookingFormProps) {
@@ -10,17 +12,29 @@ function BookingForm({ id }: BookingFormProps) {
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [name, setName] = useState<string>("");
     const [guests, setGuests] = useState<number>(1);
+    const ctx = useContext(BookingContext);
+    if (!ctx) {
+        return <p>Erreur : BookingProvider manquant ⚠️</p>
+    }
+    const { addReservation } = ctx;
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        if (!startDate || !endDate) return;
+        if (endDate <= startDate) return;
+        if (name.trim()) return;
+        addReservation(newReservation);
+
     }
     const newReservation = {
         id: Date.now(),
         hotelId: id,
         startDate: startDate,
         endDate: endDate,
-        guestName: name,
-        totalPrice: '100$'
+        guestName: name.trim(),
+        totalPrice: 100
     }
+    console.log(newReservation);
     return (
         <form onSubmit={handleSubmit} className='flex  flex-col items-center gap-3'>
             {/* Dates */}
