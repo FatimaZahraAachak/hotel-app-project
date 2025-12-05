@@ -34,6 +34,10 @@ function ConfirmationModal({ open, onClose, id, startDate, endDate }: Confirmati
         onClose();
         navigate("/my-reservations");
     }
+    function formatDate(d: Date | null): string {
+        if (!d) return '-';
+        return d.toLocaleDateString("fr-FR");
+    }
     return (
         <Modal
             open={open}
@@ -44,8 +48,8 @@ function ConfirmationModal({ open, onClose, id, startDate, endDate }: Confirmati
                 <h3 className="font-bold">Votre Réserver est confirmée </h3>
                 <div>
                     <div>Hotel:{hotel.name}</div>
-                    <div>Dates:{ }</div>
-                    <div>{`Total Price:${PriceTotal()}£`}</div>
+                    <div>Dates: du {formatDate(startDate)} au {formatDate(endDate)}</div>
+                    <div>{`Total Price:${PriceTotal()}€`}</div>
                 </div>
                 <button type='button' className='bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4  ' onClick={goToReservation}>
                     Voire Mes Résevations
