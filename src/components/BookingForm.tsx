@@ -22,9 +22,6 @@ function BookingForm({ id, price }: BookingFormProps) {
         return <p>Erreur : BookingProvider manquant ⚠️</p>
     }
     const { addReservation } = ctx;
-
-  
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!startDate || !endDate) return;
