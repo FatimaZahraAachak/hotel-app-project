@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { BookingContext } from "../context/BookingContext";
+import ReservationCard from "../components/ReservationCard";
 
 function MyReservations() {
     const ctx = useContext(BookingContext);
@@ -11,10 +12,10 @@ function MyReservations() {
     return (
         <div>
             <header className="mb-6 md:mb-8">
-                <h1 className="text-xl md:text-2xl font-bold text-gray-900">Hôtels</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900">Your Reservations</h1>
             </header>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col gap-5">
                 {reservations ? (
                     reservations.map((res) => (
                         <div key={res.id} className="h-full">

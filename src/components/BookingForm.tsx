@@ -46,9 +46,9 @@ function BookingForm({ id, price }: BookingFormProps) {
 
 
     return (
-        <form onSubmit={handleSubmit} className='flex  flex-col items-center gap-3'>
+        <form onSubmit={handleSubmit} className='flex h-full  flex-col  gap-3'>
             {/* Dates */}
-            <div className='flex flex-row gap-5' >
+            <div className='flex flex-row gap-5 items-center' >
                 <div>
                     <label className='font-medium'>Date d’arrivée</label>
                     <DatePicker
@@ -58,12 +58,12 @@ function BookingForm({ id, price }: BookingFormProps) {
                         }}
                         minDate={new Date()}
                         placeholderText="Choisissez une date"
-                        className=' border border-gray-300'
+                        className=' border border-gray-300 rounded-md p-1'
 
                     />
                 </div>
 
-                <div>
+                <div className='ml-auto'>
                     <label className='font-medium'>Date de départ</label>
                     <DatePicker
                         selected={endDate}
@@ -71,45 +71,45 @@ function BookingForm({ id, price }: BookingFormProps) {
                         disabled={!startDate}
                         minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : undefined}
                         placeholderText="Choisissez une date"
-                        className=' border border-gray-300'
+                        className=' border border-gray-300 rounded-md p-1'
                     />
                 </div>
             </div>
 
             {/* Nom */}
-            <div className='flex flex-row gap-5'>
+            <div className='flex flex-col'>
                 <label className='font-medium' >Nom</label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Votre nom complet"
-                    className='border border-gray-300'
+                    className='border border-gray-300 rounded-md p-1'
                 />
             </div>
 
             {/* Invités */}
-            <div className='flex flex-row gap-5'>
+            <div className='flex flex-col'>
                 <label className='font-medium' >Invités</label>
                 <input
                     type="number"
                     min={1}
                     value={guests}
                     onChange={(e) => setGuests(Number(e.target.value))}
-                    className='border border-gray-300'
+                    className='border border-gray-300 rounded-md p-1'
                 />
             </div>
 
             {/* Actions */}
-            <div>
-                <button className='bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4  '
-                    type="submit" onClick={onOpenModal}
-                >
-                    Confirmer la réservation
-                </button>
-                <ConfirmationModal open={open} onClose={onCloseModal} id={id} startDate={startDate} endDate={endDate} />
 
-            </div>
+            <button className='bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 mx-auto mt-auto'
+                type="submit" onClick={onOpenModal}
+            >
+                Confirmer la réservation
+            </button>
+            <ConfirmationModal open={open} onClose={onCloseModal} id={id} startDate={startDate} endDate={endDate} />
+
+
         </form>
     );
 }
