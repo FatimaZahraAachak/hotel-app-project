@@ -1,23 +1,12 @@
 import { Link, useParams } from "react-router-dom";
-import type { Hotel } from "../types";
+import type { Hotel } from "../../types";
 import { useContext, useState } from "react";
-import { HotelContext } from "../context/HotelContext";
-import BookingMoadl from "../components/BookingModal";
+import { HotelContext } from "../../context/HotelContext";
+import BookingMoadl from "../../components/BookingModal";
+import { amenityIcon } from "./amenityIcon ";
 
 // mappe un amenity -> émoji sympa
-const amenityIcon = (a: string) => {
-    const key = a.toLowerCase();
-    if (key.includes("wi-fi") || key.includes("wifi")) return "📶";
-    if (key.includes("piscine") || key.includes("pool")) return "🏊";
-    if (key.includes("spa")) return "💆";
-    if (key.includes("parking")) return "🅿️";
-    if (key.includes("petit déjeuner") || key.includes("breakfast")) return "🥐";
-    if (key.includes("plage")) return "🏖️";
-    if (key.includes("gym") || key.includes("fitness")) return "🏋️";
-    if (key.includes("bar")) return "🍹";
-    if (key.includes("restaurant")) return "🍽️";
-    return "✨";
-};
+
 
 export default function HotelDetails() {
     const [open, setOpen] = useState<boolean>(false);

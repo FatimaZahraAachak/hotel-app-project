@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { HotelContext } from "../context/HotelContext";
 import type { Hotel, Reservation } from "../types"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 type ReservationCardProps = {
     res: Reservation
 }
 function ReservationCard({ res }: ReservationCardProps) {
+    const navigate = useNavigate();
     const ctx = useContext(HotelContext);
     if (!ctx) {
         return <p>Erreur : HotelProvider manquant ⚠️</p>
@@ -32,6 +33,9 @@ function ReservationCard({ res }: ReservationCardProps) {
         if (!d) return '-';
         return d.toLocaleDateString("fr-FR");
     }
+    const handleSubmit = () => {
+        navigate(`/hotels/${id}`);
+    }
 
     return (
         <div className="flex flex-row gap-2 items-center w-[500px] border  rounded-2xl border-gray-300 p-3 bg-white">
@@ -44,7 +48,7 @@ function ReservationCard({ res }: ReservationCardProps) {
                 <div className="text-sm">{formatDate(res.startDate) ? formatDate(res.startDate) : '-'} - {formatDate(res.endDate) ? formatDate(res.endDate) : '-'} </div>
                 <div className="font-medium">{`${res.totalPrice}€`}</div>
             </div>
-            <button type='button' className="bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 ml-auto">Voir details </button>
+            <button type='button' className="bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 ml-auto" onClick={handleSubmit}>Voir details </button>
         </div>
     )
 }

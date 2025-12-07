@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import HotelDetails from './pages/HotelDetails'
+import HotelDetails from './pages/HotelDetails/HotelDetails'
 import MyReservations from './pages/MyReservations'
 import NavBar from './components/NavBar'
 import Favorites from './pages/Favorites'
