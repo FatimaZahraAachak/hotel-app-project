@@ -5,9 +5,6 @@ import { HotelContext } from "../../context/HotelContext";
 import BookingMoadl from "../../components/BookingModal";
 import { amenityIcon } from "./amenityIcon ";
 
-// mappe un amenity -> émoji sympa
-
-
 export default function HotelDetails() {
     const [open, setOpen] = useState<boolean>(false);
 

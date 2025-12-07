@@ -38,7 +38,7 @@ function ReservationCard({ res }: ReservationCardProps) {
     }
 
     return (
-        <div className="flex flex-row gap-2 items-center w-[500px] border  rounded-2xl border-gray-300 p-3 bg-white">
+        <div className="flex flex-row gap-2 items-center w-[700px] border  rounded-2xl border-gray-300 p-3 bg-white">
             <div>
                 <img src={found.image} className="h-16 rounded-lg"
                     loading="eager" />

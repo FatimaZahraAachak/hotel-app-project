@@ -43,6 +43,11 @@ function ConfirmationModal({ open, onClose, id, startDate, endDate }: Confirmati
             open={open}
             onClose={onClose}
             center
+            classNames={{
+                overlay: "bg-black/50 backdrop-blur-sm",
+                modal: "bg-white rounded-2xl shadow-xl p-6  transition-all",
+                closeButton: "absolute top-3 right-3 text-gray-500 hover:text-gray-700",
+            }}
         >
             <div className=" flex flex-col gap-7 items-center  ">
                 <h3 className="font-bold ">Votre Réserver est confirmée! </h3>
