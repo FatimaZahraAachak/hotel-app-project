@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Hotel } from "../../types"
-import BookingMoadl from "../../components/BookingModal";
+import BookingModal from "../../components/BookingModal";
 
 type FooterProps = {
     found: Hotel
@@ -25,7 +25,7 @@ function Footer({ found }: FooterProps) {
             >
                 Réserver maintenant
             </button>
-            <BookingMoadl open={open}
+            <BookingModal open={open}
                 onClose={onCloseModal} id={found.id} price={found.price} />
             <button
                 className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 transition"

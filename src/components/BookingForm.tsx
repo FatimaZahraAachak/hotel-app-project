@@ -40,8 +40,9 @@ function BookingForm({ id, price }: BookingFormProps) {
         }
         console.log(newReservation);
         addReservation(newReservation);
-
+        onOpenModal();
     }
+    const isFormValid = startDate && endDate && name.trim();
 
 
 
@@ -102,8 +103,8 @@ function BookingForm({ id, price }: BookingFormProps) {
 
             {/* Actions */}
 
-            <button className='bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 mx-auto mt-auto'
-                type="submit" onClick={onOpenModal}
+            <button className={`rounded-lg h-8 font-medium px-4 mx-auto mt-auto transition ${isFormValid ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                type="submit"
             >
                 Confirmer la réservation
             </button>
