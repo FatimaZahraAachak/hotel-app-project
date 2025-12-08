@@ -23,7 +23,7 @@ function BookingMoadl({ open, onClose, id, price }: BookingModalProps) {
                 closeButton: "absolute top-3 right-3 text-gray-500 hover:text-gray-700",
             }}
         >
-            <div className="w-[500px] h-[350px] flex flex-col gap-5 items-center ">
+            <div className="flex flex-col gap-5 items-center   w-full max-w-sm md:max-w-md lg:max-w-lg max-h-[85vh] overflow-y-auto  p-4 md:p- ">
                 <h3 className="font-bold">Réserver votre séjour</h3>
                 <BookingForm id={id} price={price} />
             </div>

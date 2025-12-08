@@ -46,10 +46,10 @@ function BookingForm({ id, price }: BookingFormProps) {
 
 
     return (
-        <form onSubmit={handleSubmit} className='flex h-full  flex-col  gap-3'>
+        <form onSubmit={handleSubmit} className='flex h-full  flex-col  gap-2 md:gap-3'>
             {/* Dates */}
-            <div className='flex flex-row gap-5 items-center' >
-                <div>
+            <div className='flex flex-col gap-3   md:flex-row md:gap-5' >
+                <div className='flex flex-col'>
                     <label className='font-medium'>Date d’arrivée</label>
                     <DatePicker
                         selected={startDate}
@@ -63,7 +63,7 @@ function BookingForm({ id, price }: BookingFormProps) {
                     />
                 </div>
 
-                <div className='ml-auto'>
+                <div className='flex flex-col md:ml-auto'>
                     <label className='font-medium'>Date de départ</label>
                     <DatePicker
                         selected={endDate}

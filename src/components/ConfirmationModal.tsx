@@ -49,9 +49,9 @@ function ConfirmationModal({ open, onClose, id, startDate, endDate }: Confirmati
                 closeButton: "absolute top-3 right-3 text-gray-500 hover:text-gray-700",
             }}
         >
-            <div className=" flex flex-col gap-7 items-center  ">
+            <div className=" flex flex-col gap-4 items-center md:gap-7 ">
                 <h3 className="font-bold ">Votre Réserver est confirmée! </h3>
-                <div className="flex flex-col gap 4 bg-blue-100 border border-gray-300 rounded-lg px-2 w-max h-max  ">
+                <div className="flex flex-col gap 4 bg-blue-100 border border-gray-300 rounded-lg p-1 md:px-2 md:w-max md:h-max  ">
                     <div>Hotel:{hotel.name}</div>
                     <div>Dates: du {formatDate(startDate)} au {formatDate(endDate)}</div>
                     <div>{`Total Price:${PriceTotal()}€`}</div>

@@ -38,17 +38,19 @@ function ReservationCard({ res }: ReservationCardProps) {
     }
 
     return (
-        <div className="flex flex-row gap-2 items-center w-[700px] border  rounded-2xl border-gray-300 p-3 bg-white">
-            <div>
-                <img src={found.image} className="h-16 rounded-lg"
-                    loading="eager" />
+        <div className="flex flex-col gap-10 items-center border  rounded-2xl border-gray-300 p-3 bg-white md:flex-row ">
+            <div className="flex gap-6">
+                <div>
+                    <img src={found.image} className="h-16 rounded-lg"
+                        loading="eager" />
+                </div>
+                <div className="flex flex-col ">
+                    <div className="font-bold truncate w-60">{found.name}</div>
+                    <div className="text-sm">{formatDate(res.startDate) ? formatDate(res.startDate) : '-'} - {formatDate(res.endDate) ? formatDate(res.endDate) : '-'} </div>
+                    <div className="font-medium">{`${res.totalPrice}€`}</div>
+                </div>
             </div>
-            <div className="flex flex-col ">
-                <div className="font-bold">{found.name}</div>
-                <div className="text-sm">{formatDate(res.startDate) ? formatDate(res.startDate) : '-'} - {formatDate(res.endDate) ? formatDate(res.endDate) : '-'} </div>
-                <div className="font-medium">{`${res.totalPrice}€`}</div>
-            </div>
-            <button type='button' className="bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 ml-auto" onClick={handleSubmit}>Voir details </button>
+            <button type='button' className="bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 " onClick={handleSubmit}>Voir details </button>
         </div>
     )
 }
