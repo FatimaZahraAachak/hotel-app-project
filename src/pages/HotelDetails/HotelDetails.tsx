@@ -42,6 +42,7 @@ export default function HotelDetails() {
                     <Informations found={found} />
                     <Equipments found={found} />
                 </div>
+
                 <aside className="lg:col-span-2">
                     <Footer found={found} />
                 </aside>
