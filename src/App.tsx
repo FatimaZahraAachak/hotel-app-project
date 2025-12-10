@@ -8,10 +8,7 @@ import { supabase } from './services/supabase'
 import { useEffect } from 'react'
 
 function App() {
-  
-  useEffect(() => {
-    supabase.from('test_table').select('*').then(console.log)
-  }, [])
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <NavBar />
