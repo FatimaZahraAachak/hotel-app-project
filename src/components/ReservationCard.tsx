@@ -29,8 +29,12 @@ function ReservationCard({ res }: ReservationCardProps) {
             </div>
         );
     }
-    function formatDate(d: Date | null): string {
+    function formatDate(d: Date | null | string): string {
         if (!d) return '-';
+        if (typeof d === 'string') {
+            const date = new Date(d);
+            return date.toLocaleDateString("fr-FR")
+        }
         return d.toLocaleDateString("fr-FR");
     }
     const handleSubmit = () => {
