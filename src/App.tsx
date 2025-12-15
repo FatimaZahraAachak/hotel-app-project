@@ -4,8 +4,7 @@ import HotelDetails from './pages/HotelDetails/HotelDetails'
 import MyReservations from './pages/MyReservations'
 import NavBar from './components/NavBar'
 import Favorites from './pages/Favorites'
-import { supabase } from './services/supabase'
-import { useEffect } from 'react'
+
 
 function App() {
 
