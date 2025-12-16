@@ -3,9 +3,9 @@ import type { Hotel } from "../types";
 import { supabase } from "../services/supabase";
 type FavoriteContextValue = {
     favorites: Hotel[],
-    addToFavorites: (hotel: Hotel) => void,
-    isFavorite: (reservationId: number) => void,
-    removeFromFavorites: (reservationId: number) => void
+    addToFavorites: (hotel: Hotel) => Promise<void>,
+    isFavorite: (hotelId: number) => boolean,
+    removeFromFavorites: (hotelId: number) => Promise<void>
 }
 export const FavoriteContext = createContext<FavoriteContextValue | undefined>(undefined);
 
@@ -20,33 +20,34 @@ export const FavoriteProvider = ({ children }: { children: React.ReactNode }) =>
         if (!data) return;
         setFavorites(data);
     }
-    async function addToFavorites(favorites: Hotel) {
+    async function addToFavorites(hotel: Hotel) {
         const { data } = await supabase
             .from('favorites')
             .insert([
-                favorites,
+                hotel,
             ])
             .select();
         if (!data) return;
         getFavorites();
     }
 
-    async function removeFromFavorites(reservationId: number) {
+    async function removeFromFavorites(hotelId: number) {
 
         const { error } = await supabase
             .from('favorites')
             .delete()
-            .eq('id', reservationId);
-        if (!error) return;
+            .eq('id', hotelId);
+        if (error) {
+            console.error(error);
+            return;
+        }
         getFavorites();
     }
-    async function isFavorite(reservationId: number) {
-        const { data } = await supabase
-            .from('favorites')
-            .select()
-            .eq('id', reservationId);
-        if (!data) return;
+
+    function isFavorite(hotelId: number): boolean {
+        return favorites.some((hotel) => hotel.id === hotelId);
     }
+
 
     const value = {
         favorites,

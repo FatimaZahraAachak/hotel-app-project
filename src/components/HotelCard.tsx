@@ -1,11 +1,26 @@
 import { Link } from "react-router-dom";
 import type { Hotel } from "../types";
+import { FavoriteContext } from "../context/FavoriteContext";
+import { useContext } from "react";
 
 type Props = {
     hotel: Hotel;
 };
 
 function HotelCard({ hotel }: Props) {
+    const ctx = useContext(FavoriteContext);
+    if (!ctx) {
+        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
+    }
+    const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
+    const favorite = isFavorite(hotel.id);
+    const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation(); // pour éviter que le clic déclenche le <Link> parent
+        if (favorite) removeFromFavorites(hotel.id);
+        else addToFavorites(hotel);
+    }
+
     return (
         <div className="group rounded-2xl bg-white shadow-md hover:shadow-lg transition overflow-hidden">
             <Link
@@ -29,8 +44,8 @@ function HotelCard({ hotel }: Props) {
                     </div>
 
                     <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur">
-                        <button className="">♥</button>
-                        
+                        <button className="" onClick={onFavoriteClick}>♥</button>
+
                     </div>
 
                     <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-gray-900 shadow backdrop-blur">
