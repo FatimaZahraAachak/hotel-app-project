@@ -15,8 +15,8 @@ function HotelCard({ hotel }: Props) {
     const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
     const favorite = isFavorite(hotel.id);
     const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        console.log("🧡 Clic sur le cœur", { hotelId: hotel.id, favoriteAvantClick: favorite });
         e.preventDefault();
-        e.stopPropagation(); // pour éviter que le clic déclenche le <Link> parent
         if (favorite) removeFromFavorites(hotel.id);
         else addToFavorites(hotel);
     }
@@ -43,10 +43,18 @@ function HotelCard({ hotel }: Props) {
                         <span>{hotel.rating.toFixed(1)}</span>
                     </div>
 
-                    <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur">
-                        <button className="" onClick={onFavoriteClick}>♥</button>
-
+                    <div className="absolute right-3 top-3 inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur">
+                        <button
+                            onClick={onFavoriteClick}
+                            className={
+                                `transition text-base
+       ${favorite ? "text-red-500" : "text-gray-400 hover:text-red-400"}`
+                            }
+                        >
+                            ♥
+                        </button>
                     </div>
+
 
                     <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-gray-900 shadow backdrop-blur">
                         <span>💶</span>

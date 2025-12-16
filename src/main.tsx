@@ -6,15 +6,17 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router'
 import { HotelProvider } from './context/HotelContext.tsx'
 import { BookingProvider } from './context/BookingContext.tsx'
+import { FavoriteProvider } from './context/FavoriteContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <HotelProvider>
         <BookingProvider>
-          <App />
+          <FavoriteProvider>
+            <App />
+          </FavoriteProvider>
         </BookingProvider>
-
       </HotelProvider>
     </BrowserRouter>
   </StrictMode>,

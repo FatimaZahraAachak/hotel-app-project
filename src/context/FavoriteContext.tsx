@@ -16,18 +16,16 @@ export const FavoriteProvider = ({ children }: { children: React.ReactNode }) =>
     }, [])
 
     async function getFavorites() {
-        const { data } = await supabase.from('favorites').select();
-        if (!data) return;
+        const { data, error } = await supabase.from('favorites').select();
+        if (!data || error) return;
         setFavorites(data);
     }
     async function addToFavorites(hotel: Hotel) {
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from('favorites')
-            .insert([
-                hotel,
-            ])
+            .insert([hotel])
             .select();
-        if (!data) return;
+        if (error || !data) return;
         getFavorites();
     }
 
