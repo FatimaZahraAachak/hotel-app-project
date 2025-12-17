@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import type { Hotel } from "../../types"
 import BookingModal from "../../components/BookingModal";
+import { FavoriteContext } from "../../context/FavoriteContext";
 
 type FooterProps = {
     found: Hotel
 }
 function Footer({ found }: FooterProps) {
+    const ctx = useContext(FavoriteContext);
+    if (!ctx) {
+        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
+    }
+    const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
+    const favorite = isFavorite(found.id);
+    const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (favorite) removeFromFavorites(found.id);
+        else addToFavorites(found);
+    }
     const [open, setOpen] = useState<boolean>(false);
 
     const onOpenModal = () => setOpen(true);
@@ -28,12 +40,13 @@ function Footer({ found }: FooterProps) {
             <BookingModal open={open}
                 onClose={onCloseModal} id={found.id} price={found.price} />
             <button
-                className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 transition"
-                type="button"
+                className={`mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 transition ${favorite ? "text-red-500" : "text-gray-400 hover:text-red-400"}`}
+
+                type="button" onClick={onFavoriteClick}
             >
-                ♥ Ajouter aux favoris
+                ♥ {favorite ? ("supprimer de favoris"):("Ajouter aux favoris")}
             </button>
-        </div>
+        </div >
     )
 }
 export default Footer

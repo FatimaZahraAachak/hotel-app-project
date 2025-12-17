@@ -45,18 +45,36 @@ function ConfirmationModal({ open, onClose, id, startDate, endDate }: Confirmati
             center
             classNames={{
                 overlay: "bg-black/50 backdrop-blur-sm",
-                modal: "bg-white rounded-2xl shadow-xl p-6  transition-all",
+                modal: "bg-white rounded-2xl shadow-xl p-6 md:p-7 transition-all max-w-md",
                 closeButton: "absolute top-3 right-3 text-gray-500 hover:text-gray-700",
             }}
         >
-            <div className=" flex flex-col gap-4 items-center md:gap-7 ">
-                <h3 className="font-bold ">Votre Réserver est confirmée! </h3>
-                <div className="flex flex-col gap 4 bg-blue-100 border border-gray-300 rounded-lg p-1 md:px-2 md:w-max md:h-max  ">
-                    <div>Hotel:{hotel.name}</div>
-                    <div>Dates: du {formatDate(startDate)} au {formatDate(endDate)}</div>
-                    <div>{`Total Price:${PriceTotal()}€`}</div>
+            <div className=" flex flex-col gap-4 items-center md:gap-6 text-center ">
+                <div className="inline-flex items-center justify-center rounded-full bg-green-100 text-green-600 w-10 h-10 md:w-12 md:h-12 mb-1">
+                    ✓
                 </div>
-                <button type='button' className='bg-blue-400 hover:bg-blue-500 border  border-gray-300 rounded-lg h-8 font-medium text-white px-4  ' onClick={goToReservation}>
+
+                <h3 className="font-semibold text-lg md:text-xl text-gray-900 ">Votre Réserver est confirmée! </h3>
+                <p className="text-sm text-gray-600 max-w-sm">
+                    Merci pour votre confiance. Voici un récapitulatif de votre séjour :
+                </p>
+                <div className="w-full  bg-blue-50 border border-blue-100 rounded-xl p-3 md:p-4 md:w-max md:h-max text-sm md:text-base text-left space-y-2  ">
+                    <div>
+                        <span className="font-semibold text-gray-900">Hôtel :</span>{" "}
+                        <span className="text-gray-800">{hotel.name}</span>
+                    </div>
+                    <div>
+                        <span className="font-semibold text-gray-900">Dates :</span>{" "}
+                        <span className="text-gray-800">
+                            du {formatDate(startDate)} au {formatDate(endDate)}
+                        </span>
+                    </div>
+                    <div>
+                        <span className="font-semibold text-gray-900">Total :</span>{" "}
+                        <span className="text-gray-900">{PriceTotal()} €</span>
+                    </div>
+                </div>
+                <button type='button' className='mt-5 w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition  ' onClick={goToReservation}>
                     Voire Mes Résevations
                 </button>
             </div>

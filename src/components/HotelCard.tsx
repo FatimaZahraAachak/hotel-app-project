@@ -15,7 +15,6 @@ function HotelCard({ hotel }: Props) {
     const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
     const favorite = isFavorite(hotel.id);
     const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log("🧡 Clic sur le cœur", { hotelId: hotel.id, favoriteAvantClick: favorite });
         e.preventDefault();
         if (favorite) removeFromFavorites(hotel.id);
         else addToFavorites(hotel);

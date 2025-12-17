@@ -47,11 +47,11 @@ function BookingForm({ id, price }: BookingFormProps) {
 
 
     return (
-        <form onSubmit={handleSubmit} className='flex h-full  flex-col  gap-2 md:gap-3'>
+        <form onSubmit={handleSubmit} className="flex h-full flex-col gap-3 md:gap-4 text-sm text-gray-800">
             {/* Dates */}
             <div className='flex flex-col gap-3   md:flex-row md:gap-5' >
-                <div className='flex flex-col'>
-                    <label className='font-medium'>Date d’arrivée</label>
+                <div className='flex flex-col gap-1 w-full'>
+                    <label className='font-medium text-gray-900'>Date d’arrivée</label>
                     <DatePicker
                         selected={startDate}
                         onChange={(date) => {
@@ -59,20 +59,20 @@ function BookingForm({ id, price }: BookingFormProps) {
                         }}
                         minDate={new Date()}
                         placeholderText="Choisissez une date"
-                        className=' border border-gray-300 rounded-md p-1'
+                        className=' border border-gray-300 rounded-md px-3 py-2px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400'
 
                     />
                 </div>
 
-                <div className='flex flex-col md:ml-auto'>
-                    <label className='font-medium'>Date de départ</label>
+                <div className='flex flex-col gap-1 md:ml-auto w-full'>
+                    <label className='font-medium text-gray-900'>Date de départ</label>
                     <DatePicker
                         selected={endDate}
                         onChange={(date) => setEndDate(date)}
                         disabled={!startDate}
                         minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : undefined}
                         placeholderText="Choisissez une date"
-                        className=' border border-gray-300 rounded-md p-1'
+                        className=' border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 disabled:bg-gray-100'
                     />
                 </div>
             </div>
@@ -85,7 +85,7 @@ function BookingForm({ id, price }: BookingFormProps) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Votre nom complet"
-                    className='border border-gray-300 rounded-md p-1'
+                    className='border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 w-full max-w-[160px]'
                 />
             </div>
 
@@ -97,17 +97,18 @@ function BookingForm({ id, price }: BookingFormProps) {
                     min={1}
                     value={guests}
                     onChange={(e) => setGuests(Number(e.target.value))}
-                    className='border border-gray-300 rounded-md p-1'
+                    className='border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full max-w-[160px]'
                 />
             </div>
 
             {/* Actions */}
-
-            <button className={`rounded-lg h-8 font-medium px-4 mx-auto mt-auto transition ${isFormValid ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-                type="submit"
-            >
-                Confirmer la réservation
-            </button>
+            <div className='mt-3 md:mt-4 flex flex-col items-center gap-2'>
+                <button className={`mt-5 w-full rounded-xl  px-4 py-2.5 text-sm font-medium text-white ${isFormValid ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                    type="submit">Confirmer la réservation</button>
+                <p className="text-xs text-gray-500 text-center">
+                    Vous ne serez pas débité immédiatement. La confirmation complète vous sera envoyée par email.
+                </p>
+            </div>
             <ConfirmationModal open={open} onClose={onCloseModal} id={id} startDate={startDate} endDate={endDate} />
 
 
