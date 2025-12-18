@@ -40,6 +40,9 @@ function ReservationCard({ res }: ReservationCardProps) {
     const handleSubmit = () => {
         navigate(`/hotels/${id}`);
     }
+    const handleDelet = () => {
+        
+    }
 
     return (
         <div className="h-full flex flex-col   rounded-2xl border border-gray-200 p-5 bg-white shadow-sm hover:shadow-md transition ">

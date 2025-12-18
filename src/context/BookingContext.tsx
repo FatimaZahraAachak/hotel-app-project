@@ -4,7 +4,8 @@ import { supabase } from "../services/supabase";
 
 type BookingContextValue = {
     reservations: Reservation[],
-    addReservation: (res: Reservation) => Promise<void>;
+    addReservation: (res: Reservation) => Promise<void>,
+    removeReservation: (resId: number) => Promise<void>
 }
 export const BookingContext = createContext<BookingContextValue | undefined>(undefined)
 export const BookingProvider = ({ children }: { children: React.ReactNode }) => {
@@ -30,9 +31,22 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         if (!data) return;
         getReservation();
     }
+    async function removeReservation(resId: number) {
+        const { error } = await supabase
+            .from('reservation')
+            .delete()
+            .eq('id', resId);
+        if (error) {
+            console.error(error);
+            return;
+        }
+        getReservation();
+
+    }
     const value = {
         reservations,
-        addReservation
+        addReservation,
+        removeReservation
     }
     return <BookingContext.Provider value={value}>{children}</BookingContext.Provider>
 }
