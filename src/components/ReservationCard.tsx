@@ -42,19 +42,22 @@ function ReservationCard({ res }: ReservationCardProps) {
     }
 
     return (
-        <div className="flex flex-col gap-10 items-center border  rounded-2xl border-gray-300 p-3 bg-white md:flex-row ">
-            <div className="flex gap-6">
-                <div>
-                    <img src={found.image} className="h-16 rounded-lg"
-                        loading="eager" />
-                </div>
-                <div className="flex flex-col ">
-                    <div className="font-bold truncate w-60">{found.name}</div>
-                    <div className="text-sm">{formatDate(res.startDate) ? formatDate(res.startDate) : '-'} - {formatDate(res.endDate) ? formatDate(res.endDate) : '-'} </div>
-                    <div className="font-medium">{`${res.totalPrice}€`}</div>
+        <div className="h-full flex flex-col   rounded-2xl border border-gray-200 p-5 bg-white shadow-sm hover:shadow-md transition ">
+            <div className="flex items-start gap-4 w-full min-w-0">
+
+                <img src={found.image} alt={found.name} className="h-20 w-20 rounded-xl object-cover ring-1 ring-gray-200"
+                    loading="eager" />
+
+                <div className="flex-1 min-w-0 ">
+                    <div className="font-semibold text-gray-900 truncate text-base">{found.name}</div>
+                    <div className="mt-1 text-sm text-gray-600">{formatDate(res.startDate) ? formatDate(res.startDate) : '-'} - {formatDate(res.endDate) ? formatDate(res.endDate) : '-'} </div>
+                    <div className="mt-3 inline-flex rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-900 ring-1 ring-gray-200">{`${res.totalPrice}€`}</div>
                 </div>
             </div>
-            <button type='button' className="bg-blue-400 hover:bg-blue-500 border-gray-300 rounded-lg h-8 font-medium text-white px-4 " onClick={handleSubmit}>Voir details </button>
+            <div className="mt-4 flex flex-col gap-2">
+                <button type='button' className=" w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition " onClick={handleSubmit}>Voir details </button>
+                <button type='button' className=" w-full rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-500 transition " >Annuler </button>
+            </div>
         </div>
     )
 }

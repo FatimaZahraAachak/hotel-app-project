@@ -8,22 +8,28 @@ function MyReservations() {
         return <p>Erreur : BookingProvider manquant ⚠️</p>
     }
     const { reservations } = ctx;
+    const hasData = reservations.length > 0;
 
     return (
-        <div className="flex flex-col items-center ">
+        <div className="mx-auto max-w-5xl px-4 py-6 md:px-6 lg:py-10 ">
             <header className="mb-6 md:mb-8">
                 <h1 className="text-xl md:text-2xl font-bold text-gray-900">Your Reservations</h1>
+                <p className="mt-1 text-sm text-gray-600">
+                    {hasData
+                        ? `${reservations.length} réservation(s) enregistrée(s)`
+                        : "Vous n’avez pas encore de réservation."}
+                </p>
             </header>
 
-            <div className="flex flex-col gap-5 " >
-                {reservations ? (
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 " >
+                {hasData ? (
                     reservations.map((res) => (
                         <div key={res.id} className="h-full">
                             <ReservationCard res={res} />
                         </div>
                     ))
                 ) : (
-                    <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">
+                        <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow-sm border border-gray-100">
                         Aucune donnée disponible pour le moment.
                     </div>
                 )}
