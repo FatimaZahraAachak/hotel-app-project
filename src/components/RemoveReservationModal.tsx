@@ -1,22 +1,31 @@
 import Modal from "react-responsive-modal";
-import type { Reservation } from "../types";
+import type { Hotel, Reservation } from "../types";
 import { useContext } from "react";
 import { BookingContext } from "../context/BookingContext";
 type RemoveReservationModalProps = {
     res: Reservation,
     open: boolean,
+    found: Hotel,
     onClose: () => void
 }
-function RemoveReservationModal({ res, open, onClose }: RemoveReservationModalProps) {
+function RemoveReservationModal({ res, open, onClose, found }: RemoveReservationModalProps) {
     const ctx = useContext(BookingContext);
     if (!ctx) {
-        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
+        return <p>Erreur : BookingProvider manquant ⚠️</p>
     }
     const { removeReservation } = ctx;
 
     const handleRemoveFavrorite = () => {
         removeReservation(res.id);
         onClose();
+    }
+    function formatDate(d: Date | null | string): string {
+        if (!d) return '-';
+        if (typeof d === 'string') {
+            const date = new Date(d);
+            return date.toLocaleDateString("fr-FR")
+        }
+        return d.toLocaleDateString("fr-FR");
     }
     return (<Modal
         open={open}
@@ -28,27 +37,32 @@ function RemoveReservationModal({ res, open, onClose }: RemoveReservationModalPr
             closeButton: "absolute top-3 right-3 text-gray-500 hover:text-gray-700",
         }}
     >
-        <div className="flex flex-col gap-4 text-center">
-            <div className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
-                !
-            </div>
-            <h3 className="text-lg md:text-xl font-semibold text-gray-900">
-                Confirmer l’annulation ?
-            </h3>
-            <p className="text-sm text-gray-600">
-                Cette action est définitive. Voulez-vous vraiment annuler cette réservation ?
-            </p>
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-left">
-                <div className="text-sm text-gray-600">Réservation</div>
-                <div className="mt-1 font-medium text-gray-900">
-                    ID : {res.id}
+        <div className="flex flex-col gap-4 ">
+            <div className="text-center">
+                <div className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+                    !
                 </div>
-                <div className="mt-2 inline-flex rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-900 ring-1 ring-gray-200">
-                    Total : {res.totalPrice}€
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900">
+                    Confirmer l’annulation ?
+                </h3>
+                <p className="text-sm text-gray-600">
+                    Cette action est définitive. Voulez-vous vraiment annuler cette réservation ?
+                </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <div className="flex items-start gap-4 w-full min-w-0">
+
+                    <img src={found.image} alt={found.name} className="h-16 w-20 shrink-0 rounded-xl object-cover ring-1 ring-gray-200"
+                        loading="eager" />
+
+                    <div className=" flex-1 min-w-0 ">
+                        <div className="font-semibold text-gray-900 truncate text-base">{found.name}</div>
+                        <div className="mt-1 text-sm text-gray-600">{formatDate(res.startDate)} - {formatDate(res.endDate)}</div>
+                        <div className="mt-3 inline-flex rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-900 ring-1 ring-gray-200">{`${res.totalPrice}€`}</div>
+                    </div>
                 </div>
             </div>
             <div className="mt-1 flex flex-col gap-2">
-
                 <button
                     type="button"
                     onClick={handleRemoveFavrorite}
@@ -66,11 +80,11 @@ function RemoveReservationModal({ res, open, onClose }: RemoveReservationModalPr
                     Retour
                 </button>
             </div>
-            <p className="text-xs text-gray-500">
+            <p className=" text-center text-xs text-gray-500">
                 Vous pourrez réserver à nouveau à tout moment.
             </p>
         </div>
 
-    </Modal>)
+    </Modal >)
 }
 export default RemoveReservationModal;

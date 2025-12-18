@@ -64,7 +64,7 @@ function ReservationCard({ res }: ReservationCardProps) {
             <div className="mt-4 flex flex-col gap-2">
                 <button type='button' className=" w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition " onClick={handleSubmit}>Voir details </button>
                 <button type='button' className=" w-full rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-500 transition " onClick={handleDelet} >Annuler </button>
-                <RemoveReservationModal open={open} onClose={onCloseModal} res={res} />
+                <RemoveReservationModal open={open} onClose={onCloseModal} res={res} found={found} />
             </div>
         </div>
     )

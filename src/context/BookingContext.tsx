@@ -33,7 +33,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     }
     async function removeReservation(resId: number) {
         const { error } = await supabase
-            .from('reservation')
+            .from('reservations')
             .delete()
             .eq('id', resId);
         if (error) {
