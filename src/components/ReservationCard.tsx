@@ -1,12 +1,16 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { HotelContext } from "../context/HotelContext";
 import type { Hotel, Reservation } from "../types"
 import { Link, useNavigate } from "react-router-dom";
+import RemoveReservationModal from "./RemoveReservationModal";
 
 type ReservationCardProps = {
     res: Reservation
 }
 function ReservationCard({ res }: ReservationCardProps) {
+    const [open, setOpen] = useState<boolean>(false);
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
     const navigate = useNavigate();
     const ctx = useContext(HotelContext);
     if (!ctx) {
@@ -41,14 +45,14 @@ function ReservationCard({ res }: ReservationCardProps) {
         navigate(`/hotels/${id}`);
     }
     const handleDelet = () => {
-        
+        onOpenModal();
     }
 
     return (
         <div className="h-full flex flex-col   rounded-2xl border border-gray-200 p-5 bg-white shadow-sm hover:shadow-md transition ">
             <div className="flex items-start gap-4 w-full min-w-0">
 
-                <img src={found.image} alt={found.name} className="h-20 w-20 rounded-xl object-cover ring-1 ring-gray-200"
+                <img src={found.image} alt={found.name} className="h-full w-20 rounded-xl object-cover ring-1 ring-gray-200"
                     loading="eager" />
 
                 <div className="flex-1 min-w-0 ">
@@ -59,7 +63,8 @@ function ReservationCard({ res }: ReservationCardProps) {
             </div>
             <div className="mt-4 flex flex-col gap-2">
                 <button type='button' className=" w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition " onClick={handleSubmit}>Voir details </button>
-                <button type='button' className=" w-full rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-500 transition " >Annuler </button>
+                <button type='button' className=" w-full rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-500 transition " onClick={handleDelet} >Annuler </button>
+                <RemoveReservationModal open={open} onClose={onCloseModal} res={res} />
             </div>
         </div>
     )
