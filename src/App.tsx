@@ -12,7 +12,7 @@ function App() {
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <NavBar />
 
-      <main className="mx-auto max-w-7xl px-6 py-10">
+      <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
