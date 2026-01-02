@@ -1,34 +1,56 @@
 import { useContext } from "react";
-import HotelCard from "../components/HotelCard";
-import { HotelContext } from "../context/HotelContext";
+import { SearchContext } from "../context/SearchContext";
+import HotelSearchResults from "../components/HotelSearchResults";
+import HotelsList from "../components/HotelsList";
+import SearchBar from "../components/SearchBar";
 
 function Home() {
-    const ctx = useContext(HotelContext);
-    if (!ctx) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
+    const searchcontext = useContext(SearchContext);
+    if (!searchcontext) {
+        return <p>Erreur : SearchProvider manquant ⚠️</p>;
     }
-    const { hotels } = ctx;
-    const hasData = hotels && hotels.length > 0;
-
+    const { searchTerm, country } = searchcontext;
+    const hasQuery = searchTerm.trim().length > 0 || country.trim().length > 0;
+    const term = searchTerm.trim();
+    const c = country.trim();
+    const label =
+        term && c ? `${term}-${c}` :
+            term ? term :
+                c;
     return (
-        <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:py-10">
-            <header className="mb-6 md:mb-8">
-                <h1 className="text-xl md:text-2xl font-bold text-gray-900">Hôtels</h1>
-            </header>
-
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {hasData ? (
-                    hotels.map((hotel) => (
-                        <div key={hotel.id} className="h-full">
-                            <HotelCard hotel={hotel} />
+        <div>
+            <section className="relative overflow-hidden">
+                <div className="h-[340px] md:h-[420px] w-full bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80')]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/10" />
+                <div className="absolute inset-0 flex items-center">
+                    <div className="mx-auto w-full max-w-4xl px-4">
+                        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+                            Trouvez votre prochain séjour
+                        </h1>
+                        <p className="mt-3 text-white/90 text-sm md:text-base">
+                            Recherchez les meilleurs hôtels et profitez des meilleures offres.
+                        </p>
+                        <div className="mt-6 max-w-2xl">
+                            <SearchBar />
                         </div>
-                    ))
-                ) : (
-                    <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">
-                        Aucune donnée disponible pour le moment.
                     </div>
-                )}
-            </div>
+                </div>
+            </section>
+            <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+                <header className="mb-6 md:mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                        {hasQuery ? "Résultats" : "Hôtels populaires"}
+                    </h2>
+
+                    <p className="mt-1 text-sm text-gray-600">
+                        {hasQuery
+                            ? `Résultats pour “${label}”`
+                            : "Découvrez notre sélection du moment."}
+                    </p>
+                </header>
+
+                {hasQuery ? <HotelSearchResults /> : <HotelsList />}
+            </main>
         </div>
     );
 }

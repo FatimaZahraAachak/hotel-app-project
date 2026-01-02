@@ -3,33 +3,62 @@ import { SearchContext } from "../context/SearchContext";
 
 function SearchBar() {
     const [inputValue, setInputValue] = useState<string>('');
-    const isDisabled = inputValue.trim().length === 0;
+    const [countryValue, setCountryValue] = useState<string>('');
+
     const ctx = useContext(SearchContext);
     if (!ctx) {
         return <p>Erreur : SearchProvider manquant ⚠️</p>
     }
 
-    const { setSearchTerm } = ctx;
-    const handleSearch = () => {
-        if (isDisabled) return;
+    const { setSearchTerm, setCountry, filterHotels, loading } = ctx;
+
+    const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setSearchTerm(inputValue.trim());
+        setCountry(countryValue.trim());
+        await filterHotels({ searchTerm: inputValue, country: countryValue });
+
+    }
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    }
+    const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCountryValue(e.target.value);
     }
 
+
     return (
-        <div className="flex w-full items-center gap-2 ">
-            <input type="w-full text" placeholder="Rechercher" onChange={(e) => setInputValue(e.target.value)} onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                    handleSearch();
-                }
-            }} value={inputValue}
-                className=" rounded-xl border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2
+        <form className="flex w-full items-center gap-2 " onSubmit={handleSearch}>
+
+            <input type="text" placeholder="Rechercher" onChange={handleChangeInput}
+                value={inputValue}
+                className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2
 focus:ring-blue-200"
             />
-            <button type="button" disabled={isDisabled} className={`shrink-0 inline-flex items-center justify-center rounded-xl px-3 py-2 transition
-          ${isDisabled
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 text-white hover:bg-blue-700"
-                }`} onClick={handleSearch} aria-label="Rechercher">
+            <select className="rounded-xl border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2
+focus:ring-blue-200" value={countryValue} onChange={handleChangeSelect}>
+                <option value=''>tous les pays</option>
+                <option value='Maroc'>Maroc</option>
+                <option value='France'>France</option>
+                <option value='Espagne'>Espagne</option>
+                <option value='Allemagne'>Allemagne</option>
+                <option value='Autriche'>Autriche</option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+            </select>
+
+
+
+            <button type="submit" className={`shrink-0 inline-flex items-center justify-center rounded-xl px-3 py-2 transition bg-blue-600 text-white hover:bg-blue-700`} aria-label="Rechercher" disabled={loading}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -44,9 +73,8 @@ focus:ring-blue-200"
                         d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
                     />
                 </svg>
-
             </button>
-        </div>
+        </form>
     )
 }
 export default SearchBar;

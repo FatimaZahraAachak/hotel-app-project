@@ -1,23 +1,19 @@
 import { Link, NavLink } from "react-router-dom";
-import SearchBar from "./SearchBar";
 
 
 function NavBar() {
     return (
-        <nav className="sticky top-0 z-50 bg-white shadow-md">
+        <nav className="sticky top-0 z-50 bg-white shadow-md ">
             <div className="mx-auto  max-w-7xl  px-4 py-3 md:px-6 md:py-4 lg:px-8">
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6 sticky">
+                <div className="flex  items-center justify-between  ">
                     <Link
                         to="/"
                         className=" shrink-0 text-2xl font-bold text-gray-900 hover:text-gray-700 transition "
                     >
                         Hotel<span className="text-blue-500">App</span>
                     </Link>
-                    <div className="w-full md:w-[320px] lg:w-[420px]">
-                        <SearchBar />
-                    </div>
 
-                    <div className="flex flex-wrap shrink-0 items-center gap-6">
+                    <div className="flex  items-center gap-6">
                         <NavLink
                             to="/"
                             className={({ isActive }) =>
