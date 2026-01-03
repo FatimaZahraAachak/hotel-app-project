@@ -15,18 +15,21 @@ export const HotelProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         getHotels();
+        console.log("appel")
     }, [page])
 
     async function getHotels() {
         const from = pageSize * page;
         const to = from + pageSize - 1;
+
         const { data, error } = await supabase.from("hotel").select('*').range(from, to);
         if (error) {
             console.log("erreur");
             return;
         }
         if (!data) return;
-        setHotels(prevHotels => prevHotels.concat(data));
+        if (page === 0) setHotels(data ?? []);
+        else setHotels(prevHotels => prevHotels.concat(data));
     }
 
     const value = {
