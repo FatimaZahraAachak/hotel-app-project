@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
+import { countries } from "../data/countries";
 
 function SearchBar() {
     const [inputValue, setInputValue] = useState<string>('');
@@ -38,22 +39,9 @@ focus:ring-blue-200"
             <select className="rounded-xl border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2
 focus:ring-blue-200" value={countryValue} onChange={handleChangeSelect}>
                 <option value=''>tous les pays</option>
-                <option value='Maroc'>Maroc</option>
-                <option value='France'>France</option>
-                <option value='Espagne'>Espagne</option>
-                <option value='Allemagne'>Allemagne</option>
-                <option value='Autriche'>Autriche</option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
+                {countries.map((country) => (
+                    <option key={country} value={country}>{country}</option>
+                ))}
             </select>
 
 
