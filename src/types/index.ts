@@ -11,8 +11,9 @@ export interface Hotel {
 export interface Reservation {
     id: number;
     hotelId: number;
-    startDate: Date | null; 
+    startDate: Date | null;
     endDate: Date | null;
     guestName: string;
     totalPrice: number;
+    hotel: Hotel
 }

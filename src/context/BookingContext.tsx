@@ -16,7 +16,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     async function getReservation() {
         let { data } = await supabase
             .from('reservations')
-            .select('*');
+            .select('*, hotel(*)');
         if (!data) return;
         console.log(data);
         setReservations(data);
