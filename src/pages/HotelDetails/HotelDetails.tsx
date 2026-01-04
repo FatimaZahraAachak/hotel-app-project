@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import type { Hotel } from "../../types";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HotelContext } from "../../context/HotelContext";
 
 import Header from "./Header";
@@ -14,12 +14,30 @@ export default function HotelDetails() {
         return <p>Erreur : HotelProvider manquant ⚠️</p>
     }
     const { getHotelById } = ctx;
-
+    const [hotel, setHotel] = useState<Hotel | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     const { id: _id } = useParams();
     const id = Number(_id);
-    const found: Hotel | undefined = id ? getHotelById(id) : undefined;
+    useEffect(() => {
+        async function loadHotel() {
+            const result = await getHotelById(id);
+            setHotel(result);
+            setLoading(false);
+        }
+        loadHotel();
 
-    if (!found) {
+    }, [id, getHotelById])
+
+    if (loading) {
+        return (
+            <div className="rounded-xl border p-6 text-center text-gray-500">
+                Chargement de l’hôtel...
+            </div>
+        );
+    }
+
+
+    if (!hotel) {
         return (
             <div className="mx-auto max-w-4xl px-4 py-16 md:px-6 text-center">
                 <h1 className="text-2xl font-bold text-gray-900">Hôtel non trouvé</h1>
@@ -36,15 +54,15 @@ export default function HotelDetails() {
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:py-10">
-            <Header found={found} />
+            <Header hotel={hotel} />
             <section className="mt-6 md:mt-8 grid gap-6 lg:grid-cols-5 lg:gap-8">
                 <div className="lg:col-span-3">
-                    <Informations found={found} />
-                    <Equipments found={found} />
+                    <Informations hotel={hotel} />
+                    <Equipments hotel={hotel} />
                 </div>
 
                 <aside className="lg:col-span-2">
-                    <Footer found={found} />
+                    <Footer hotel={hotel} />
                 </aside>
             </section>
         </div>

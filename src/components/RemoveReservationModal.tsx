@@ -5,10 +5,10 @@ import { BookingContext } from "../context/BookingContext";
 type RemoveReservationModalProps = {
     res: Reservation,
     open: boolean,
-    found: Hotel,
+    hotel: Hotel,
     onClose: () => void
 }
-function RemoveReservationModal({ res, open, onClose, found }: RemoveReservationModalProps) {
+function RemoveReservationModal({ res, open, onClose, hotel }: RemoveReservationModalProps) {
     const ctx = useContext(BookingContext);
     if (!ctx) {
         return <p>Erreur : BookingProvider manquant ⚠️</p>
@@ -52,11 +52,11 @@ function RemoveReservationModal({ res, open, onClose, found }: RemoveReservation
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
                 <div className="flex items-start gap-4 w-full min-w-0">
 
-                    <img src={found.image} alt={found.name} className="h-16 w-20 shrink-0 rounded-xl object-cover ring-1 ring-gray-200"
+                    <img src={hotel.image} alt={hotel.name} className="h-16 w-20 shrink-0 rounded-xl object-cover ring-1 ring-gray-200"
                         loading="eager" />
 
                     <div className=" flex-1 min-w-0 ">
-                        <div className="font-semibold text-gray-900 truncate text-base">{found.name}</div>
+                        <div className="font-semibold text-gray-900 truncate text-base">{hotel.name}</div>
                         <div className="mt-1 text-sm text-gray-600">{formatDate(res.startDate)} - {formatDate(res.endDate)}</div>
                         <div className="mt-3 inline-flex rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-900 ring-1 ring-gray-200">{`${res.totalPrice}€`}</div>
                     </div>

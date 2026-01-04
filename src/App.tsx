@@ -4,6 +4,7 @@ import HotelDetails from './pages/HotelDetails/HotelDetails'
 import MyReservations from './pages/MyReservations'
 import NavBar from './components/NavBar'
 import Favorites from './pages/Favorites'
+import Login from './pages/Login'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <main className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/hotels/:id" element={<HotelDetails />} />
           <Route path="/my-reservations" element={<MyReservations />} />

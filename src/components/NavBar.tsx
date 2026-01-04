@@ -15,6 +15,18 @@ function NavBar() {
 
                     <div className="flex  items-center gap-6">
                         <NavLink
+                            to="/login"
+                            className={({ isActive }) =>
+                                `text-sm font-medium transition ${isActive
+                                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                    : "text-gray-600 hover:text-blue-600"
+                                }`
+                            }
+                        >
+                            Login
+                        </NavLink>
+
+                        <NavLink
                             to="/"
                             className={({ isActive }) =>
                                 `text-sm font-medium transition ${isActive
