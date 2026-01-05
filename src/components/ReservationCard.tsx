@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { HotelContext } from "../context/HotelContext";
-import type { Hotel, Reservation } from "../types"
-import { Link, useNavigate } from "react-router-dom";
+import type { Reservation } from "../types"
+import { useNavigate } from "react-router-dom";
 import RemoveReservationModal from "./RemoveReservationModal";
 
 type ReservationCardProps = {
@@ -31,7 +31,7 @@ function ReservationCard({ res }: ReservationCardProps) {
     const handleDelet = () => {
         onOpenModal();
     }
-const hotel= res.hotel
+    const hotel = res.hotel
     return (
         <div className="h-full flex flex-col   rounded-2xl border border-gray-200 p-5 bg-white shadow-sm hover:shadow-md transition ">
             <div className="flex items-start gap-4 w-full min-w-0">

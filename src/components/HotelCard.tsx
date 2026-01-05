@@ -85,7 +85,7 @@ function HotelCard({ hotel }: Props) {
             <div className="px-4 pb-4">
                 <Link
                     to={`/hotels/${hotel.id}`}
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-blue-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 >
                     Voir plus
                 </Link>

@@ -22,3 +22,10 @@ export interface Favorite {
     hotelId: number,
     hotel: Hotel
 }
+export interface NewReservation {
+    hotelId: number;
+    startDate: string;
+    endDate: string;
+    guestName: string;
+    totalPrice: number;
+}

@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from "react";
-import type { Reservation } from "../types"
+import type { NewReservation, Reservation } from "../types"
 import { supabase } from "../services/supabase";
 
 type BookingContextValue = {
     reservations: Reservation[],
-    addReservation: (res: Reservation) => Promise<void>,
+    addReservation: (res: NewReservation) => Promise<void>,
     removeReservation: (resId: number) => Promise<void>
 }
 export const BookingContext = createContext<BookingContextValue | undefined>(undefined)
@@ -21,14 +21,13 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         console.log(data);
         setReservations(data);
     }
-    async function addReservation(reservation: Reservation) {
-        const { data } = await supabase
+    async function addReservation(reservation: NewReservation) {
+        await supabase
             .from('reservations')
             .insert([
                 reservation,
-            ])
-            .select();
-        if (!data) return;
+            ]);
+
         getReservation();
     }
     async function removeReservation(resId: number) {

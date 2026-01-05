@@ -38,7 +38,7 @@ function Home() {
             </section>
             <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
                 <header className="mb-6 md:mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                    <h2 className="text-2xl md:text-3xl font-bold text-blue-500">
                         {hasQuery ? "Résultats" : "Hôtels populaires"}
                     </h2>
 

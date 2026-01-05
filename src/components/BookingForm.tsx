@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { BookingContext } from '../context/BookingContext';
 import ConfirmationModal from './ConfirmationModal';
+import type { NewReservation } from '../types';
 
 type BookingFormProps = {
     id: number
@@ -30,15 +31,13 @@ function BookingForm({ id, price }: BookingFormProps) {
         const one_day = 24 * 60 * 60 * 1000;
         const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / one_day);
         const finalPrice = nights * price;
-        const newReservation = {
-            id: Date.now(),
+        const newReservation: NewReservation = {
             hotelId: id,
-            startDate: startDate,
-            endDate: endDate,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
             guestName: name.trim(),
             totalPrice: finalPrice
         }
-        console.log(newReservation);
         addReservation(newReservation);
         onOpenModal();
     }
