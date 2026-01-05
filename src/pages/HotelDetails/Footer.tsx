@@ -7,21 +7,27 @@ type FooterProps = {
     hotel: Hotel
 }
 function Footer({ hotel }: FooterProps) {
+    const [open, setOpen] = useState<boolean>(false);
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
     const ctx = useContext(FavoriteContext);
     if (!ctx) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
-    const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
-    const favorite = isFavorite(hotel.id);
+    const favorite = ctx.isFavorite(hotel.id);
     const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (favorite) removeFromFavorites(hotel.id);
-        else addToFavorites(hotel.id);
-    }
-    const [open, setOpen] = useState<boolean>(false);
+        if (!ctx) return;
+        if (favorite) {
+            ctx.removeFromFavorites(hotel.id)
+        }
 
-    const onOpenModal = () => setOpen(true);
-    const onCloseModal = () => setOpen(false);
+        else {
+            ctx.addToFavorites(hotel.id);
+        }
+
+    }
+
     return (
         <div className="rounded-2xl bg-white p-5 md:p-6 shadow-md lg:sticky lg:top-24">
             <div className="flex items-baseline gap-2">
