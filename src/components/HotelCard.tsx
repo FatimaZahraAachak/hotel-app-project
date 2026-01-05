@@ -17,7 +17,7 @@ function HotelCard({ hotel }: Props) {
     const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (favorite) removeFromFavorites(hotel.id);
-        else addToFavorites(hotel);
+        else addToFavorites(hotel.id);
     }
 
     return (

@@ -1,54 +1,54 @@
 import { createContext, useEffect, useState } from "react";
-import type { Hotel } from "../types";
 import { supabase } from "../services/supabase";
 type FavoriteContextValue = {
-    favorites: Hotel[],
-    addToFavorites: (hotel: Hotel) => Promise<void>,
+    favoriteIds: number[],
+    addToFavorites: (hotelId: number) => Promise<void>,
     isFavorite: (hotelId: number) => boolean,
     removeFromFavorites: (hotelId: number) => Promise<void>
 }
 export const FavoriteContext = createContext<FavoriteContextValue | undefined>(undefined);
 
 export const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
-    const [favorites, setFavorites] = useState<Hotel[]>([])
+    const [favoriteIds, setFavoriteIds] = useState<number[]>([])
     useEffect(() => {
-        getFavorites();
+        loadFavrorites();
     }, [])
 
-    async function getFavorites() {
-        const { data, error } = await supabase.from('favorites').select();
+    async function loadFavrorites() {
+        const { data, error } = await supabase.from('favorites').select('hotelId');
         if (!data || error) return;
-        setFavorites(data);
+        setFavoriteIds(data.map(f => f.hotelId));
     }
-    async function addToFavorites(hotel: Hotel) {
-        const { data, error } = await supabase
+    async function addToFavorites(hotelId: number) {
+        setFavoriteIds(prev => [...prev, hotelId])
+        const { error } = await supabase
             .from('favorites')
-            .insert([hotel])
-            .select();
-        if (error || !data) return;
-        getFavorites();
+            .insert([{ hotelId }]);
+        if (error) {
+            setFavoriteIds(prev => prev.filter(id => id !== hotelId))
+        }
     }
 
     async function removeFromFavorites(hotelId: number) {
-
+        setFavoriteIds(prev => prev.filter(id => id !== hotelId))
         const { error } = await supabase
             .from('favorites')
             .delete()
-            .eq('id', hotelId);
+            .eq('hotelId', hotelId);
         if (error) {
+            setFavoriteIds(prev => [...prev, hotelId])
             console.error(error);
-            return;
         }
-        getFavorites();
+       
     }
 
     function isFavorite(hotelId: number): boolean {
-        return favorites.some((hotel) => hotel.id === hotelId);
+        return favoriteIds.includes(hotelId);
     }
 
 
     const value = {
-        favorites,
+        favoriteIds,
         addToFavorites,
         removeFromFavorites,
         isFavorite

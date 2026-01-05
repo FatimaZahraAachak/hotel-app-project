@@ -1,7 +1,12 @@
-import { defineConfig } from 'vite'
+// vite.config.js
+import checker from 'vite-plugin-checker'
 import react from '@vitejs/plugin-react'
-
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react()],
-})
+export default {
+  plugins: [
+    react(),
+    checker({
+      // e.g. use TypeScript check
+      typescript: true,
+    }),
+  ],
+}

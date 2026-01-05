@@ -17,3 +17,8 @@ export interface Reservation {
     totalPrice: number;
     hotel: Hotel
 }
+export interface Favorite {
+    id: number,
+    hotelId: number,
+    hotel: Hotel
+}
