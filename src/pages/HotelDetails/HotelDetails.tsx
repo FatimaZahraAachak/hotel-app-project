@@ -10,23 +10,29 @@ import Footer from "./Footer";
 
 export default function HotelDetails() {
     const ctx = useContext(HotelContext);
-    if (!ctx) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
-    }
-    const { getHotelById } = ctx;
+
+
     const [hotel, setHotel] = useState<Hotel | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { id: _id } = useParams();
     const id = Number(_id);
+
     useEffect(() => {
+        if (!ctx) return;
+        const safeCtx=ctx;
         async function loadHotel() {
-            const result = await getHotelById(id);
+            const result = await safeCtx.getHotelById(id);
             setHotel(result);
             setLoading(false);
         }
         loadHotel();
 
-    }, [id, getHotelById])
+
+    }, [id, ctx])
+
+    if (!ctx) {
+        return <p>Erreur : HotelProvider manquant ⚠️</p>
+    }
 
     if (loading) {
         return (

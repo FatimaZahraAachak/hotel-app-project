@@ -5,11 +5,12 @@ import { HotelContext } from "../context/HotelContext";
 
 function Favorites() {
     const hotelContext = useContext(HotelContext);
+    const favoriteContext = useContext(FavoriteContext);
     if (!hotelContext) {
         return <p>Erreur : HotelProvider manquant ⚠️</p>
     }
 
-    const favoriteContext = useContext(FavoriteContext);
+
     if (!favoriteContext) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
