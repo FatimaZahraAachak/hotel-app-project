@@ -13,7 +13,7 @@ function NavBar() {
                         Hotel<span className="text-blue-500">App</span>
                     </Link>
 
-                    <div className="flex  items-center gap-6">
+                    <div className="flex  items-center gap-4 md:gap-6 px-2">
                         <NavLink
                             to="/login"
                             className={({ isActive }) =>
