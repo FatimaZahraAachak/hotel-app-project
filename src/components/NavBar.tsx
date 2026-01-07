@@ -1,7 +1,14 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 
 function NavBar() {
+    const authContext = useContext(AuthContext);
+    if (!authContext) {
+        return <p> Erreur: AuthProvider manquant⚠️ </p>
+    }
+    const { user } = authContext;
     return (
         <nav className="sticky top-0 z-50 bg-white shadow-md ">
             <div className="mx-auto  max-w-7xl  px-4 py-3 md:px-6 md:py-4 lg:px-8">
@@ -13,54 +20,44 @@ function NavBar() {
                         Hotel<span className="text-blue-500">App</span>
                     </Link>
 
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            `text-sm font-medium transition ${isActive
+                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                : "text-gray-600 hover:text-blue-600"
+                            }`
+                        }
+                    >
+                        Home
+                    </NavLink>
+
+                    <NavLink
+                        to="/favorites"
+                        className={({ isActive }) =>
+                            `text-sm font-medium transition ${isActive
+                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                : "text-gray-600 hover:text-blue-600"
+                            }`
+                        }
+                    >
+                        Favorites
+                    </NavLink>
+
+                    <NavLink
+                        to="/my-reservations"
+                        className={({ isActive }) =>
+                            `text-sm font-medium transition ${isActive
+                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+                                : "text-gray-600 hover:text-blue-600"
+                            }`
+                        }
+                    >
+                        My Reservations
+                    </NavLink>
+
                     <div className="flex  items-center gap-4 md:gap-6 px-2">
-                        <NavLink
-                            to="/login"
-                            className={({ isActive }) =>
-                                `text-sm font-medium transition ${isActive
-                                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                                    : "text-gray-600 hover:text-blue-600"
-                                }`
-                            }
-                        >
-                            Login
-                        </NavLink>
-
-                        <NavLink
-                            to="/"
-                            className={({ isActive }) =>
-                                `text-sm font-medium transition ${isActive
-                                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                                    : "text-gray-600 hover:text-blue-600"
-                                }`
-                            }
-                        >
-                            Home
-                        </NavLink>
-
-                        <NavLink
-                            to="/favorites"
-                            className={({ isActive }) =>
-                                `text-sm font-medium transition ${isActive
-                                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                                    : "text-gray-600 hover:text-blue-600"
-                                }`
-                            }
-                        >
-                            Favorites
-                        </NavLink>
-
-                        <NavLink
-                            to="/my-reservations"
-                            className={({ isActive }) =>
-                                `text-sm font-medium transition ${isActive
-                                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                                    : "text-gray-600 hover:text-blue-600"
-                                }`
-                            }
-                        >
-                            My Reservations
-                        </NavLink>
+                        <button>{user ? 'Se déconnecter' : 'Se connecter'}</button>
                     </div>
                 </div>
             </div>
