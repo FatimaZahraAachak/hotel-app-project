@@ -1,23 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { Hotel } from "../types";
 import { FavoriteContext } from "../context/FavoriteContext";
 import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 type Props = {
     hotel: Hotel;
 };
 
 function HotelCard({ hotel }: Props) {
+    const navigate = useNavigate();
     const ctx = useContext(FavoriteContext);
+    const authContext = useContext(AuthContext);
     if (!ctx) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
+    if (!authContext) {
+        return <p> Erreur: AuthProvider manquant⚠️ </p>
+    }
+    const { user } = authContext;
     const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
     const favorite = isFavorite(hotel.id);
     const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (favorite) removeFromFavorites(hotel.id);
-        else addToFavorites(hotel.id);
+        if (user) {
+            if (favorite) removeFromFavorites(hotel.id);
+            else addToFavorites(hotel.id);
+        }
+        else navigate("/login");
     }
 
     return (
