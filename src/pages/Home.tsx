@@ -4,7 +4,7 @@ import HotelSearchResults from "../components/HotelSearchResults";
 import HotelsList from "../components/HotelsList";
 import SearchBar from "../components/SearchBar";
 
-function Home() {
+ function Home() {
     const searchcontext = useContext(SearchContext);
     if (!searchcontext) {
         return <p>Erreur : SearchProvider manquant ⚠️</p>;

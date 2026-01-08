@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { supabase } from "../services/supabase";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
+import { AuthContext } from "../context/AuthContext";
+
 
 
 function Login() {
     const [userName, setUserNname] = useState('');
     const [passWord, setPassWord] = useState('');
     const navigate = useNavigate();
+    const authContext = useContext(AuthContext);
+    if (!authContext) {
+        return <p> Erreur: AuthProvider manquant⚠️ </p>
+    }
+    const { user, loading } = authContext;
     const handleUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserNname(e.target.value)
     }
@@ -23,6 +30,18 @@ function Login() {
         navigate("/");
 
     }
+
+    if (loading) {
+        return (
+            <div className="rounded-2xl bg-white p-8 text-center text-gray-600 shadow">
+                Chargement...
+            </div>
+        );
+    }
+    if (user) {
+        return <Navigate to="/" />;
+    };
+
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-4 min-h-[500px] max-w-[400px] bg-white border rounded-2xl shadow p-6 ">

@@ -1,14 +1,22 @@
 import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 
 function NavBar() {
+    const navigate = useNavigate();
     const authContext = useContext(AuthContext);
     if (!authContext) {
         return <p> Erreur: AuthProvider manquant⚠️ </p>
     }
-    const { user } = authContext;
+    const { user, logout } = authContext;
+    const handleClick = () => {
+        if (!user) {
+            navigate("/login")
+        }
+        else logout();
+
+    }
     return (
         <nav className="sticky top-0 z-50 bg-white shadow-md ">
             <div className="mx-auto  max-w-7xl  px-4 py-3 md:px-6 md:py-4 lg:px-8">
@@ -57,7 +65,7 @@ function NavBar() {
                     </NavLink>
 
                     <div className="flex  items-center gap-4 md:gap-6 px-2">
-                        <button>{user ? 'Se déconnecter' : 'Se connecter'}</button>
+                        <button type='button' className='w-full mt-5  rounded-xl  px-4 py-2.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 ' onClick={handleClick}>{user ? 'Se déconnecter' : 'Se connecter'}</button>
                     </div>
                 </div>
             </div>
