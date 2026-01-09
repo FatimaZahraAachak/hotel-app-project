@@ -5,6 +5,7 @@ import MyReservations from './pages/MyReservations'
 import NavBar from './components/NavBar'
 import Favorites from './pages/Favorites'
 import Login from './pages/Login'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 
 function App() {
@@ -17,9 +18,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/favorites" element={<ProtectedRoute> <Favorites /></ProtectedRoute>} />
+          <Route path="/my-reservations" element={<ProtectedRoute>
+            <MyReservations />
+          </ProtectedRoute>} />
           <Route path="/hotels/:id" element={<HotelDetails />} />
-          <Route path="/my-reservations" element={<MyReservations />} />
         </Routes>
       </main>
     </div>
