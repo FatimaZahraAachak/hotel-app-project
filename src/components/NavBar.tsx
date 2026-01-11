@@ -1,24 +1,17 @@
-import { useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { UserMenu } from "./UserMenu";
+import { NotUserMenu } from "./NotUserMenu";
 
 
 function NavBar() {
-    const navigate = useNavigate();
     const authContext = useContext(AuthContext);
+    const [open, setOpen] = useState(false);
     if (!authContext) {
         return <p> Erreur: AuthProvider manquant⚠️ </p>
     }
-    const { user, logout } = authContext;
-    const handleClick = () => {
-        if (user) {
-            logout();
-        }
-
-        navigate("/login");
-
-
-    }
+    const { user } = authContext;
     return (
         <nav className="sticky top-0 z-50 bg-white shadow-md ">
             <div className="mx-auto  max-w-7xl  px-4 py-3 md:px-6 md:py-4 lg:px-8">
@@ -29,7 +22,6 @@ function NavBar() {
                     >
                         Hotel<span className="text-blue-500">App</span>
                     </Link>
-
                     <NavLink
                         to="/"
                         className={({ isActive }) =>
@@ -39,35 +31,23 @@ function NavBar() {
                             }`
                         }
                     >
-                        Home
+                        Hotels
                     </NavLink>
-
-                    <NavLink
-                        to="/favorites"
-                        className={({ isActive }) =>
-                            `text-sm font-medium transition ${isActive
-                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                                : "text-gray-600 hover:text-blue-600"
-                            }`
-                        }
+                    <button
+                        onClick={() => setOpen(!open)}
+                        className="md:hidden text-2xl"
                     >
-                        Favorites
-                    </NavLink>
-
-                    <NavLink
-                        to="/my-reservations"
-                        className={({ isActive }) =>
-                            `text-sm font-medium transition ${isActive
-                                ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                                : "text-gray-600 hover:text-blue-600"
-                            }`
-                        }
+                        ☰
+                    </button>
+                    <div
+                        className={`
+    ${open ? "block" : "hidden"}
+    absolute top-full left-0 w-full
+    bg-white shadow-md
+    md:static md:block md:w-auto md:shadow-none
+  `}
                     >
-                        My Reservations
-                    </NavLink>
-
-                    <div className="flex  items-center gap-4 md:gap-6 px-2">
-                        <button type='button' className='w-full   rounded-xl  px-4 py-2.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 ' onClick={handleClick}>{user ? 'Se déconnecter' : 'Se connecter'}</button>
+                        {user ? <UserMenu /> : <NotUserMenu />}
                     </div>
                 </div>
             </div>

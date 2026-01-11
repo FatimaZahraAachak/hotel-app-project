@@ -6,8 +6,10 @@ import { AuthContext } from "../context/AuthContext";
 
 
 function Login() {
-    const [userName, setUserNname] = useState('');
-    const [passWord, setPassWord] = useState('');
+    const [userName, setUserNname] = useState<string>('');
+    const [passWord, setPassWord] = useState<string>('');
+    const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const navigate = useNavigate();
     const authContext = useContext(AuthContext);
     if (!authContext) {
@@ -22,11 +24,15 @@ function Login() {
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { data, error } = await supabase.auth.signInWithPassword({ email: userName, password: passWord });
-        if (error || !data) {
-            console.error(error);
+        setLoadingLogin(true);
+        setErrorMessage('');
+        const { error } = await supabase.auth.signInWithPassword({ email: userName, password: passWord });
+        if (error) {
+            setLoadingLogin(false);
+            setErrorMessage('Email ou mot de passe incorrect');
             return;
         }
+        setLoadingLogin(false);
         navigate("/");
 
     }
@@ -41,8 +47,7 @@ function Login() {
     if (user) {
         return <Navigate to="/" />;
     };
-
-
+    const isActive = userName.trim().length > 0 && passWord.trim().length > 0;
     return (
         <div className=" flex items-center  px-2 py-20">
             <form
@@ -76,10 +81,17 @@ function Login() {
 
                 <button
                     type="submit"
-                    className="w-full mt-5 rounded-xl px-4 py-3 text-sm font-medium text-white bg-blue-500 hover:bg-blue-700"
+                    disabled={loadingLogin || !isActive}
+                    className={`w-full mt-5 rounded-xl px-4 py-3 text-sm font-medium text-white ${(!loadingLogin || !isActive) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+
                 >
-                    Se connecter
+                    {loadingLogin ? 'Connexion...' : 'Se connecter '}
                 </button>
+                {errorMessage && (
+                    <p className="text-center text-red-500">
+                        {errorMessage}
+                    </p>
+                )}
             </form>
         </div>
     );
