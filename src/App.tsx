@@ -6,6 +6,7 @@ import NavBar from './components/NavBar'
 import Favorites from './pages/Favorites'
 import Login from './pages/Login'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { SingUp } from './pages/SingUp'
 
 
 function App() {
@@ -18,10 +19,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/singUp" element={<SingUp />} />
           <Route path="/favorites" element={<ProtectedRoute> <Favorites /></ProtectedRoute>} />
           <Route path="/my-reservations" element={<ProtectedRoute>
             <MyReservations />
           </ProtectedRoute>} />
+
           <Route path="/hotels/:id" element={<HotelDetails />} />
         </Routes>
       </main>
