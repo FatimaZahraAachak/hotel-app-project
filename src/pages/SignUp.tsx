@@ -1,31 +1,59 @@
 import { useState } from "react";
 import { supabase } from "../services/supabase";
 import { Link } from "react-router";
+import { SignUpConfirmation } from "./SignUpConfirmation";
+import { getSignUpErrorMessage, isValidEmail, isValidPassword } from "../utils/validators";
 
-export function SingUp() {
-    const [userName, setUserNname] = useState<string>('');
+export function SignUp() {
+    const [userName, setUserName] = useState<string>('');
     const [passWord, setPassWord] = useState<string>('');
-    const [loadingSingUp, setLoadingSingUp] = useState<boolean>(false);
+    const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const isActive = userName.trim().length > 0 && passWord.trim().length > 0;
+    const [signedUp, setSignedUp] = useState<boolean>(false)
+    const canSubmit = userName.trim().length > 0 && passWord.trim().length > 0;
     const handleUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserNname(e.target.value)
+        setUserName(e.target.value)
     }
     const handlePassWord = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassWord(e.target.value)
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoadingSingUp(true);
         setErrorMessage('');
-        const { error } = await supabase.auth.signUp({ email: userName, password: passWord });
-        if (error) {
-            setLoadingSingUp(false);
-            setErrorMessage('Email ou mot de passe incorrect');
+
+        if (!isValidEmail(userName)) {
+            setErrorMessage('Adresse mail invalide');
             return;
         }
-        setLoadingSingUp(false);
+        const passwordError = isValidPassword(passWord);
+        if (passwordError) {
+            setErrorMessage(passwordError);
+            return;
+        }
+        setLoadingSignUp(true);
 
+        try {
+            const { error } = await supabase.auth.signUp({
+                email: userName,
+                password: passWord
+            });
+
+            if (error) {
+                setErrorMessage(getSignUpErrorMessage(error));
+                return;
+            }
+
+            setSignedUp(true);
+
+        } catch {
+            setErrorMessage('Erreur serveur. Réessayez plus tard.');
+        } finally {
+            setLoadingSignUp(false);
+        }
+
+    }
+    if (signedUp) {
+        return <SignUpConfirmation />;
     }
     return (
         <div className=" flex items-center  px-2 py-20">
@@ -60,17 +88,20 @@ export function SingUp() {
 
                 <button
                     type="submit"
-                    disabled={loadingSingUp || !isActive}
-                    className={`w-full mt-5 rounded-xl px-4 py-3 text-sm font-medium text-white ${(loadingSingUp || !isActive) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+                    disabled={loadingSignUp || !canSubmit}
+                    className={`w-full mt-5 rounded-xl px-4 py-3 text-sm font-medium text-white ${(loadingSignUp || !canSubmit) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
 
                 >
-                    {loadingSingUp ? 'Création...' : 'Créer mon compte '}
+                    {loadingSignUp ? 'Création...' : 'Créer mon compte '}
                 </button>
-                {errorMessage && (
-                    <p className="text-center text-red-500">
-                        {errorMessage}
-                    </p>
-                )}
+                <p
+                    className={`text-center ${errorMessage.includes('Erreur serveur')
+                        ? 'text-orange-500'
+                        : 'text-red-500'
+                        }`}
+                >
+                    {errorMessage}
+                </p>
                 <p className="text-xs text-gray-500 text-center">Vous avez déja un compte ? cliquez sur <Link to="/login" className="text-blue-600 border-b-2 border-blue-600 ">Se connecter</Link></p>
             </form>
         </div>

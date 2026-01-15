@@ -1,40 +1,52 @@
 import { useContext, useState } from "react";
 import { supabase } from "../services/supabase";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
+import { getLoginErrorMessage, isValidEmail } from "../utils/validators";
 
 
 
 function Login() {
-    const [userName, setUserNname] = useState<string>('');
+    const [userName, setUserName] = useState<string>('');
     const [passWord, setPassWord] = useState<string>('');
     const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const navigate = useNavigate();
     const authContext = useContext(AuthContext);
     if (!authContext) {
         return <p> Erreur: AuthProvider manquant⚠️ </p>
     }
     const { user, loading } = authContext;
     const handleUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserNname(e.target.value)
+        setUserName(e.target.value)
     }
     const handlePassWord = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassWord(e.target.value)
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoadingLogin(true);
         setErrorMessage('');
-        const { error } = await supabase.auth.signInWithPassword({ email: userName, password: passWord });
-        if (error) {
-            setLoadingLogin(false);
-            setErrorMessage('Email ou mot de passe incorrect');
+        if (!isValidEmail(userName)) {
+            setErrorMessage('Adresse mail invalide');
             return;
         }
-        setLoadingLogin(false);
-        navigate("/");
 
+        setLoadingLogin(true);
+
+        try {
+            const { error } = await supabase.auth.signInWithPassword({
+                email: userName,
+                password: passWord
+            });
+
+            if (error) {
+                setErrorMessage(getLoginErrorMessage(error));
+                return;
+            }
+        } catch {
+            setErrorMessage('Erreur serveur. Réessayez plus tard.');
+        } finally {
+            setLoadingLogin(false);
+        }
     }
 
     if (loading) {
@@ -47,7 +59,7 @@ function Login() {
     if (user) {
         return <Navigate to="/" />;
     };
-    const isActive = userName.trim().length > 0 && passWord.trim().length > 0;
+    const canSubmit = userName.trim().length > 0 && passWord.trim().length > 0;
     return (
         <div className=" flex items-center  px-2 py-20">
             <form
@@ -81,8 +93,8 @@ function Login() {
 
                 <button
                     type="submit"
-                    disabled={loadingLogin || !isActive}
-                    className={`w-full mt-5 rounded-xl px-4 py-3 text-sm font-medium text-white ${(loadingLogin || !isActive) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+                    disabled={loadingLogin || !canSubmit}
+                    className={`w-full mt-5 rounded-xl px-4 py-3 text-sm font-medium text-white ${(loadingLogin || !canSubmit) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
 
                 >
                     {loadingLogin ? 'Connexion...' : 'Se connecter '}
@@ -92,7 +104,7 @@ function Login() {
                         {errorMessage}
                     </p>
                 )}
-                <p className="text-xs text-gray-500 text-center">Vous n'avez pas de compte ? cliquez sur <Link to="/singUp" className="text-blue-600 border-b-2 border-blue-600 ">Créer un compte</Link></p>
+                <p className="text-xs text-gray-500 text-center">Vous n'avez pas de compte ? cliquez sur <Link to="/signUp" className="text-blue-600 border-b-2 border-blue-600 ">Créer un compte</Link></p>
             </form>
         </div>
     );
