@@ -15,12 +15,14 @@ export interface Reservation {
     endDate: Date | null;
     guestName: string;
     totalPrice: number;
-    hotel: Hotel
+    hotel: Hotel,
+    user_id:string
 }
 export interface Favorite {
     id: number,
     hotelId: number,
-    hotel: Hotel
+    hotel: Hotel,
+    user_id: string
 }
 export interface NewReservation {
     hotelId: number;

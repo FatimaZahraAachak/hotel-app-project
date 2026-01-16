@@ -1,21 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { supabase } from "../services/supabase";
 import type { NewReservation, Reservation } from "../types";
 import { BookingContext } from "./BookingContext";
+import { AuthContext } from "./AuthContext";
 
 export const BookingProvider = ({ children }: { children: React.ReactNode }) => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
+    const authContext = useContext(AuthContext);
+
     useEffect(() => {
-        async function getReservation() {
-            const { data } = await supabase
-                .from('reservations')
-                .select('*, hotel(*)');
-            if (!data) return;
-            console.log(data);
-            setReservations(data);
+        const safeUser = authContext?.user;
+        if (safeUser) {
+            async function getReservation() {
+                const { data } = await supabase
+                    .from('reservations')
+                    .select('*, hotel(*)')
+                    .eq('user_id', safeUser?.id);
+                if (!data) return;
+                console.log(data);
+                setReservations(data);
+            }
+            getReservation();
         }
-        getReservation();
-    }, [])
+
+    })
 
     async function addReservation(reservation: NewReservation) {
         await supabase

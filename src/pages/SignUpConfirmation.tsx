@@ -36,7 +36,7 @@ export function SignUpConfirmation() {
                     to="/login"
                     className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-3 rounded-xl transition text-center"
                 >
-                    Accéder à l’application
+                    Se connecter 
                 </Link>
             </div>
         </div>

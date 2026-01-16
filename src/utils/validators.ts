@@ -17,7 +17,7 @@ export function isValidPassword(password: string): string | null {
     if (!/[0-9]/.test(password)) {
         return "Le mot de passe doit contenir un chiffre";
     }
-    if (!/[!@#$%^&*]/.test(password)) {
+    if (!/[!@#$%^?&*]/.test(password)) {
         return "Le mot de passe doit contenir un caractère spécial";
     }
     return null;
