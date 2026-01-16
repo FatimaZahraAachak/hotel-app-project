@@ -8,51 +8,75 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const authContext = useContext(AuthContext);
 
+    const safeUser = authContext?.user;
+
     useEffect(() => {
-        const safeUser = authContext?.user;
-        if (safeUser) {
-            async function getReservation() {
-                const { data } = await supabase
-                    .from('reservations')
-                    .select('*, hotel(*)')
-                    .eq('user_id', safeUser?.id);
-                if (!data) return;
-                console.log(data);
+        if (!safeUser) return;
+
+        async function getReservations() {
+            const { data, error } = await supabase
+                .from("reservations")
+                .select("*, hotel(*)")
+                .eq("user_id", safeUser?.id);
+
+            if (error) {
+                console.error(error);
+                return;
+            }
+
+            if (data) {
                 setReservations(data);
             }
-            getReservation();
         }
 
-    })
+        getReservations();
+    }, [safeUser]);
 
     async function addReservation(reservation: NewReservation) {
-        await supabase
-            .from('reservations')
-            .insert([
-                reservation,
-            ]);
+        if (!safeUser) return;
 
-        const { data } = await supabase
-            .from("reservations")
-            .select("*, hotel(*)");
+        const userReservation = {
+            ...reservation,
+            user_id: safeUser.id,
+        };
 
-        if (data) setReservations(data);
-    }
-    async function removeReservation(resId: number) {
         const { error } = await supabase
-            .from('reservations')
-            .delete()
-            .eq('id', resId);
+            .from("reservations")
+            .insert([userReservation]);
+
         if (error) {
             console.error(error);
             return;
         }
+
+        const { data } = await supabase
+            .from("reservations")
+            .select("*, hotel(*)")
+            .eq("user_id", safeUser.id);
+
+        if (data) {
+            setReservations(data);
+        }
+    }
+
+    async function removeReservation(resId: number) {
+        if (!safeUser) return;
+
+        const { error } = await supabase
+            .from("reservations")
+            .delete()
+            .eq("id", resId)
+            .eq("user_id", safeUser.id);
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
         setReservations(prev =>
             prev.filter(r => r.id !== resId)
         );
-
     }
-
     return <BookingContext.Provider value={{
         reservations,
         addReservation,

@@ -1,25 +1,34 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { supabase } from "../services/supabase";
 import { FavoriteContext } from "./FavoriteContext";
+import { AuthContext } from "./AuthContext";
 
 export const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
     const [favoriteIds, setFavoriteIds] = useState<number[]>([])
-
-
+    const authContext = useContext(AuthContext);
+    const safeUser = authContext?.user;
     useEffect(() => {
-        async function loadFavrorites() {
-            const { data, error } = await supabase.from('favorites').select('hotelId');
-            if (!data || error) return;
-            setFavoriteIds(data.map(f => f.hotelId));
+
+        if (safeUser) {
+            async function loadFavrorites() {
+                const { data, error } = await supabase.from('favorites').select('hotelId').eq('user_id', safeUser?.id);
+                if (!data || error) return;
+                setFavoriteIds(data.map(f => f.hotelId));
+            }
+            loadFavrorites();
         }
-        loadFavrorites();
-    }, [])
+
+    }, [safeUser])
 
     async function addToFavorites(hotelId: number) {
+
         setFavoriteIds(prev => [...prev, hotelId])
         const { error } = await supabase
             .from('favorites')
-            .insert([{ hotelId }]);
+            .insert([{
+                hotelId,
+                user_id: safeUser?.id
+            }]);
         if (error) {
             setFavoriteIds(prev => prev.filter(id => id !== hotelId))
         }
@@ -30,7 +39,8 @@ export const FavoriteProvider = ({ children }: { children: React.ReactNode }) =>
         const { error } = await supabase
             .from('favorites')
             .delete()
-            .eq('hotelId', hotelId);
+            .eq('hotelId', hotelId)
+            .eq('user_id', safeUser?.id);
         if (error) {
             setFavoriteIds(prev => [...prev, hotelId])
             console.error(error);
