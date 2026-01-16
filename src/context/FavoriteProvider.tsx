@@ -7,45 +7,63 @@ export const FavoriteProvider = ({ children }: { children: React.ReactNode }) =>
     const [favoriteIds, setFavoriteIds] = useState<number[]>([])
     const authContext = useContext(AuthContext);
     const safeUser = authContext?.user;
-    useEffect(() => {
 
-        if (safeUser) {
-            async function loadFavrorites() {
-                const { data, error } = await supabase.from('favorites').select('hotelId').eq('user_id', safeUser?.id);
-                if (!data || error) return;
+    useEffect(() => {
+        if (!safeUser) return;
+
+        async function loadFavorites() {
+            const { data, error } = await supabase
+                .from("favorites")
+                .select("hotelId")
+                .eq("user_id", safeUser?.id);
+
+            if (error) {
+                console.error(error);
+                return;
+            }
+
+            if (data) {
                 setFavoriteIds(data.map(f => f.hotelId));
             }
-            loadFavrorites();
         }
 
-    }, [safeUser])
+        loadFavorites();
+    }, [safeUser]);
 
     async function addToFavorites(hotelId: number) {
+        if (!safeUser) return;
+        if (favoriteIds.includes(hotelId)) return;
 
-        setFavoriteIds(prev => [...prev, hotelId])
+        setFavoriteIds(prev => [...prev, hotelId]);
+
         const { error } = await supabase
-            .from('favorites')
+            .from("favorites")
             .insert([{
                 hotelId,
-                user_id: safeUser?.id
+                user_id: safeUser.id,
             }]);
+
         if (error) {
-            setFavoriteIds(prev => prev.filter(id => id !== hotelId))
+            console.error(error);
+            setFavoriteIds(prev => prev.filter(id => id !== hotelId));
         }
     }
 
     async function removeFromFavorites(hotelId: number) {
-        setFavoriteIds(prev => prev.filter(id => id !== hotelId))
-        const { error } = await supabase
-            .from('favorites')
-            .delete()
-            .eq('hotelId', hotelId)
-            .eq('user_id', safeUser?.id);
-        if (error) {
-            setFavoriteIds(prev => [...prev, hotelId])
-            console.error(error);
-        }
+        if (!safeUser) return;
 
+        setFavoriteIds(prev => prev.filter(id => id !== hotelId));
+
+        const { error } = await supabase
+            .from("favorites")
+            .delete()
+            .eq("hotelId", hotelId)
+            .eq("user_id", safeUser.id);
+
+        if (error) {
+            console.error(error);
+            setFavoriteIds(prev => [...prev, hotelId]);
+        }
     }
 
     function isFavorite(hotelId: number): boolean {
