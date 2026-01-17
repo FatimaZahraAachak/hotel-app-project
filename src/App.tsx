@@ -7,6 +7,7 @@ import Favorites from './pages/Favorites'
 import Login from './pages/Login'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { SignUp } from './pages/SignUp'
+import { BookingProvider } from './context/BookingProvider'
 
 
 
@@ -23,7 +24,9 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/favorites" element={<ProtectedRoute> <Favorites /></ProtectedRoute>} />
           <Route path="/my-reservations" element={<ProtectedRoute>
-            <MyReservations />
+            <BookingProvider>
+              <MyReservations />
+            </BookingProvider>
           </ProtectedRoute>} />
 
           <Route path="/hotels/:id" element={<HotelDetails />} />
