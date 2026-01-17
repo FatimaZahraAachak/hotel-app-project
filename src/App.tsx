@@ -28,8 +28,8 @@ function App() {
               <MyReservations />
             </BookingProvider>
           </ProtectedRoute>} />
+          <Route path="/hotels/:id" element={<BookingProvider><HotelDetails /> </BookingProvider>} />
 
-          <Route path="/hotels/:id" element={<HotelDetails />} />
         </Routes>
       </main>
     </div>
