@@ -3,6 +3,7 @@ import type { Hotel } from "../types";
 import { FavoriteContext } from "../context/FavoriteContext";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useAddFavorites, useFavorites } from "../queries/favorites";
 
 type Props = {
     hotel: Hotel;
@@ -12,6 +13,11 @@ function HotelCard({ hotel }: Props) {
     const navigate = useNavigate();
     const ctx = useContext(FavoriteContext);
     const authContext = useContext(AuthContext);
+    const userId = authContext?.user?.id ?? '';
+    const addFavoriteMutation = useAddFavorites(userId);
+    const { data } = useFavorites(userId);
+    const favoriteIds = data ? data.map(f => f.hotelId) : [];
+    const favorite = favoriteIds.includes(hotel.id)
     if (!ctx) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
@@ -19,13 +25,14 @@ function HotelCard({ hotel }: Props) {
         return <p> Erreur: AuthProvider manquant⚠️ </p>
     }
     const { user } = authContext;
-    const { isFavorite, addToFavorites, removeFromFavorites } = ctx;
-    const favorite = isFavorite(hotel.id);
+    const { removeFromFavorites } = ctx;
+
+
     const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (user) {
             if (favorite) removeFromFavorites(hotel.id);
-            else addToFavorites(hotel.id);
+            else addFavoriteMutation.mutate({ hotelId: hotel.id })
         }
         else navigate("/login");
     }

@@ -1,23 +1,31 @@
 import { useContext } from "react";
-import { FavoriteContext } from "../context/FavoriteContext";
 import HotelCard from "../components/HotelCard";
 import { HotelContext } from "../context/HotelContext";
+import { AuthContext } from "../context/AuthContext";
+import {  useFavorites } from "../queries/favorites";
 
 function Favorites() {
     const hotelContext = useContext(HotelContext);
-    const favoriteContext = useContext(FavoriteContext);
+    const authContext = useContext(AuthContext);
+    const userId = authContext?.user?.id;
+    const { isPending, data, error } = useFavorites(userId);
+    const favoriteIds = data ? data.map(f => f.hotelId) : [];
     if (!hotelContext) {
         return <p>Erreur : HotelProvider manquant ⚠️</p>
     }
-
-
-    if (!favoriteContext) {
-        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
-    }
     const { hotels } = hotelContext;
-    const { favoriteIds } = favoriteContext;
     const hasData = favoriteIds && favoriteIds.length > 0;
     const favoritesHotels = hotels.filter(h => favoriteIds.includes(h.id));
+    if (!authContext) {
+        return <p>Erreur : AuthProvider manquant ⚠️</p>
+    }
+
+    if (isPending) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Chargement des favoris...</p>
+    }
+    if (error) {
+        <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Erreur lors du chargement des favoris</p>
+    }
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:py-10">

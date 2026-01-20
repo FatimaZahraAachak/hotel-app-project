@@ -8,7 +8,7 @@ import { HotelProvider } from './context/HotelProvider.tsx';
 import { SearchProvider } from './context/SearchProvider.tsx';
 import { FavoriteProvider } from './context/FavoriteProvider.tsx';
 import { AuthProvider } from './context/AuthProvider.tsx';
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +19,9 @@ createRoot(document.getElementById('root')!).render(
       <HotelProvider>
         <SearchProvider>
             <FavoriteProvider>
+              <QueryClientProvider client={queryClient}>
                 <App />
+            </QueryClientProvider>
             </FavoriteProvider>
         </SearchProvider>
       </HotelProvider>
