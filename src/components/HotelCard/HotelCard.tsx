@@ -10,10 +10,11 @@ type Props = {
 
 function HotelCard({ hotel }: Props) {
     const authContext = useContext(AuthContext);
-    const { user } = authContext;
     if (!authContext) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
+    const { user } = authContext;
+    
     return (
         <div className="group rounded-2xl bg-white shadow-md hover:shadow-lg transition overflow-hidden">
             <Link
