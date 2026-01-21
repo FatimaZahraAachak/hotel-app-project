@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import HotelCard from "../components/HotelCard";
+import HotelCard from "../components/HotelCard/HotelCard";
 import { HotelContext } from "../context/HotelContext";
 import { AuthContext } from "../context/AuthContext";
-import {  useFavorites } from "../queries/favorites";
+import { useFavorites } from "../queries/favorites";
 
 function Favorites() {
     const hotelContext = useContext(HotelContext);

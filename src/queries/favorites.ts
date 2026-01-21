@@ -24,7 +24,7 @@ export function useFavorites(userId?: string) {
     return { data, isPending, error };
 }
 
-async function addFavorites({ hotelId, userId }: { hotelId: number, userId: string }) {
+async function addFavorites({ hotelId, userId }: { hotelId: number; userId: string }) {
     const { error } = await supabase
         .from("favorites")
         .insert([{
@@ -40,6 +40,27 @@ export function useAddFavorites(userId: string) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ hotelId }: { hotelId: number }) => addFavorites({ hotelId, userId }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["favorites", userId],
+            });
+        },
+    })
+}
+async function removeFavorites({ hotelId, userId }: { hotelId: number; userId: string }) {
+    const { error } = await supabase
+        .from("favorites")
+        .delete()
+        .eq("hotelId", hotelId)
+        .eq("user_id", userId);
+    if (error) {
+        throw error;
+    }
+}
+export function useRemoveFavorites(userId: string) {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ hotelId }: { hotelId: number }) => removeFavorites({ hotelId, userId }),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["favorites", userId],

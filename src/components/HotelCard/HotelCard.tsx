@@ -1,42 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
-import type { Hotel } from "../types";
-import { FavoriteContext } from "../context/FavoriteContext";
+import { Link } from "react-router-dom";
+import type { Hotel } from "../../types";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useAddFavorites, useFavorites } from "../queries/favorites";
+import { AuthContext } from "../../context/AuthContext";
+import { FavoritesButton } from "./FavoritesButton";
 
 type Props = {
     hotel: Hotel;
 };
 
 function HotelCard({ hotel }: Props) {
-    const navigate = useNavigate();
-    const ctx = useContext(FavoriteContext);
     const authContext = useContext(AuthContext);
-    const userId = authContext?.user?.id ?? '';
-    const addFavoriteMutation = useAddFavorites(userId);
-    const { data } = useFavorites(userId);
-    const favoriteIds = data ? data.map(f => f.hotelId) : [];
-    const favorite = favoriteIds.includes(hotel.id)
-    if (!ctx) {
+    const { user } = authContext;
+    if (!authContext) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
-    if (!authContext) {
-        return <p> Erreur: AuthProvider manquant⚠️ </p>
-    }
-    const { user } = authContext;
-    const { removeFromFavorites } = ctx;
-
-
-    const onFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if (user) {
-            if (favorite) removeFromFavorites(hotel.id);
-            else addFavoriteMutation.mutate({ hotelId: hotel.id })
-        }
-        else navigate("/login");
-    }
-
     return (
         <div className="group rounded-2xl bg-white shadow-md hover:shadow-lg transition overflow-hidden">
             <Link
@@ -59,17 +36,7 @@ function HotelCard({ hotel }: Props) {
                         <span>{hotel.rating.toFixed(1)}</span>
                     </div>
 
-                    <div className="absolute right-3 top-3 inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur">
-                        <button
-                            onClick={onFavoriteClick}
-                            className={
-                                `transition text-base
-       ${favorite ? "text-red-500" : "text-gray-400 hover:text-red-400"}`
-                            }
-                        >
-                            ♥
-                        </button>
-                    </div>
+                    {user ? <FavoritesButton userId={user.id} hotel={hotel} /> : ""}
 
 
                     <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-gray-900 shadow backdrop-blur">

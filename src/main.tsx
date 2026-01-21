@@ -6,7 +6,6 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router'
 import { HotelProvider } from './context/HotelProvider.tsx';
 import { SearchProvider } from './context/SearchProvider.tsx';
-import { FavoriteProvider } from './context/FavoriteProvider.tsx';
 import { AuthProvider } from './context/AuthProvider.tsx';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -18,11 +17,9 @@ createRoot(document.getElementById('root')!).render(
       <AuthProvider>
       <HotelProvider>
         <SearchProvider>
-            <FavoriteProvider>
               <QueryClientProvider client={queryClient}>
                 <App />
             </QueryClientProvider>
-            </FavoriteProvider>
         </SearchProvider>
       </HotelProvider>
       </AuthProvider>

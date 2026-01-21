@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
-import HotelCard from "./HotelCard";
+import HotelCard from "./HotelCard/HotelCard";
 
 function HotelSearchResults() {
     const searchcontext = useContext(SearchContext);
