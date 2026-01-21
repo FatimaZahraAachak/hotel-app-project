@@ -1,16 +1,18 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { BookingContext } from '../context/BookingContext';
 import ConfirmationModal from './ConfirmationModal';
 import type { NewReservation } from '../types';
+import { useAddReservations } from '../queries/reservations';
+
 
 type BookingFormProps = {
     id: number
-    price: number
+    price: number,
+    userId: string
 }
 
-function BookingForm({ id, price }: BookingFormProps) {
+function BookingForm({ id, price, userId }: BookingFormProps) {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [name, setName] = useState<string>("");
@@ -18,11 +20,8 @@ function BookingForm({ id, price }: BookingFormProps) {
     const [open, setOpen] = useState<boolean>(false);
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
-    const ctx = useContext(BookingContext);
-    if (!ctx) {
-        return <p>Erreur : BookingProvider manquant ⚠️</p>
-    }
-    const { addReservation } = ctx;
+
+    const addReservationMutation = useAddReservations(userId)
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!startDate || !endDate) return;
@@ -38,7 +37,7 @@ function BookingForm({ id, price }: BookingFormProps) {
             guestName: name.trim(),
             totalPrice: finalPrice
         }
-        addReservation(newReservation);
+        addReservationMutation.mutate(newReservation);
         onOpenModal();
     }
     const isFormValid = startDate && endDate && name.trim();

@@ -4,19 +4,27 @@ import BookingModal from "../../components/BookingModal";
 import { AuthContext } from "../../context/AuthContext";
 import { FavoritesButtondetail } from "./FavoritesButtonDetail";
 import { FavoritesButtonNotUser } from "./FavoritesButtonNotUser";
+import { useNavigate } from "react-router";
 
 type FooterProps = {
     hotel: Hotel
 }
 function Footer({ hotel }: FooterProps) {
-    const [open, setOpen] = useState<boolean>(false);
-    const onOpenModal = () => setOpen(true);
-    const onCloseModal = () => setOpen(false);
+    const navigate = useNavigate();
     const authContext = useContext(AuthContext);
+    const { user } = authContext;
+    const [open, setOpen] = useState<boolean>(false);
+    const onOpenModal = () => {
+        if (user) {
+            setOpen(true);
+        }
+        else navigate("/login")
+    }
+    const onCloseModal = () => setOpen(false);
     if (!authContext) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
-    const { user } = authContext;
+
 
 
     return (
@@ -34,8 +42,9 @@ function Footer({ hotel }: FooterProps) {
             >
                 Réserver maintenant
             </button>
-            <BookingModal open={open}
-                onClose={onCloseModal} id={hotel.id} price={hotel.price} />
+            {user ? <BookingModal open={open}
+                onClose={onCloseModal} id={hotel.id} price={hotel.price} userId={user.id} /> : null}
+
             {user ? <FavoritesButtondetail userId={user.id} hotel={hotel} /> : <FavoritesButtonNotUser />}
         </div >
     )

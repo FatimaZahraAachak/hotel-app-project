@@ -6,10 +6,11 @@ type BookingModalProps = {
     price: number,
     id: number,
     open: boolean,
-    onClose: () => void
+    onClose: () => void,
+    userId: string
 }
 
-function BookingModal({ open, onClose, id, price }: BookingModalProps) {
+function BookingModal({ open, onClose, id, price, userId }: BookingModalProps) {
 
 
     return (
@@ -26,7 +27,7 @@ function BookingModal({ open, onClose, id, price }: BookingModalProps) {
             <div className="flex flex-col gap-5 items-center  w-full   max-w-sm md:max-w-md lg:max-w-lg md:h-full overflow-y-auto  p-2 md:p-5 ">
                 <h3 className=" w-full  text-center text-lg md:text-xl  font-semibold text-gray-900 sticky top-0 bg-white z-10 pb-3 border-b border-gray-100">Réserver votre séjour</h3>
                 <div className="w-full pt-1 md:pt-2">
-                    <BookingForm id={id} price={price} />
+                    <BookingForm id={id} price={price} userId={userId} />
                 </div>
             </div>
         </Modal>

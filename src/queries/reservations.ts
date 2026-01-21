@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
+import type { NewReservation } from "../types";
 
 async function loadReservations(userId: string) {
     const { data, error } = await supabase
@@ -22,12 +23,13 @@ export function useReservations(userId?: string) {
     })
     return { data, isPending, error };
 }
-async function addReservations({ hotelId, userId }: { hotelId: number; userId: string }) {
+async function addReservations(newReservation: NewReservation, userId: string) {
+
     const { error } = await supabase
         .from("reservations")
         .insert([{
-            hotelId,
-            user_id: userId,
+            ...newReservation,
+            user_id: userId
         }]);
 
     if (error) {
@@ -37,7 +39,7 @@ async function addReservations({ hotelId, userId }: { hotelId: number; userId: s
 export function useAddReservations(userId: string) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ hotelId }: { hotelId: number }) => addReservations({ hotelId, userId }),
+        mutationFn: (newReservation: NewReservation) => addReservations(newReservation, userId),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["reservations", userId],
