@@ -45,7 +45,7 @@ export function useAddReservations(userId: string) {
         },
     })
 }
-async function RemoveReservations({ resId, userId }: { resId: number; userId: string }) {
+async function removeReservations({ resId, userId }: { resId: number; userId: string }) {
     const { error } = await supabase
         .from("reservations")
         .delete()
@@ -60,7 +60,7 @@ async function RemoveReservations({ resId, userId }: { resId: number; userId: st
 export function useRemoveReservations(userId: string) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ resId }: { resId: number }) => RemoveReservations({ resId, userId }),
+        mutationFn: ({ resId }: { resId: number }) => removeReservations({ resId, userId }),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["reservations", userId],
