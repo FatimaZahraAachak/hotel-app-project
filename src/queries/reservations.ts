@@ -57,7 +57,7 @@ async function RemoveReservations({ resId, userId }: { resId: number; userId: st
     }
 
 }
-export function useRemoveFavorites(userId: string) {
+export function useRemoveReservations(userId: string) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ resId }: { resId: number }) => RemoveReservations({ resId, userId }),
