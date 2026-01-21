@@ -17,7 +17,7 @@ async function loadReservations(userId: string) {
 export function useReservations(userId?: string) {
     const { isPending, error, data } = useQuery({
         queryKey: ["reservations", userId],
-        queryFn: () => loadReservations(userId as string),
+        queryFn: () => loadReservations(userId!),
         enabled: !!userId
     })
     return { data, isPending, error };
