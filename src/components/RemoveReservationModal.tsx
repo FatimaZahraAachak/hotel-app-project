@@ -1,22 +1,17 @@
 import Modal from "react-responsive-modal";
 import type { Hotel, Reservation } from "../types";
-import { useContext } from "react";
-import { BookingContext } from "../context/BookingContext";
+import { useRemoveReservations } from "../queries/reservations";
 type RemoveReservationModalProps = {
     res: Reservation,
     open: boolean,
     hotel: Hotel,
-    onClose: () => void
+    onClose: () => void,
+    userId: string
 }
-function RemoveReservationModal({ res, open, onClose, hotel }: RemoveReservationModalProps) {
-    const ctx = useContext(BookingContext);
-    if (!ctx) {
-        return <p>Erreur : BookingProvider manquant ⚠️</p>
-    }
-    const { removeReservation } = ctx;
-
+function RemoveReservationModal({ res, open, onClose, hotel, userId }: RemoveReservationModalProps) {
+    const removeReservationsMutation = useRemoveReservations(userId);
     const handleRemoveFavrorite = () => {
-        removeReservation(res.id);
+        removeReservationsMutation.mutate({ resId: res.id });
         onClose();
     }
     function formatDate(d: Date | null | string): string {
