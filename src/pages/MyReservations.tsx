@@ -1,14 +1,21 @@
 import { useContext } from "react";
-import { BookingContext } from "../context/BookingContext";
 import ReservationCard from "../components/ReservationCard";
+import { AuthContext } from "../context/AuthContext";
+import { useReservations } from "../queries/reservations";
 
 function MyReservations() {
-    const ctx = useContext(BookingContext);
-    if (!ctx) {
-        return <p>Erreur : BookingProvider manquant ⚠️</p>
-    }
-    const { reservations } = ctx;
+    const authContext = useContext(AuthContext);
+    const userId = authContext.user?.id;
+    const { isPending, data, error } = useReservations(userId);
+    const reservations = data ?? [];
     const hasData = reservations.length > 0;
+    if (isPending) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Chargement des reservations...</p>
+    }
+    if (error) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Erreur lors du chargement des reservations</p>
+    }
+
 
     return (
         <div className="mx-auto max-w-5xl px-4 py-6 md:px-6 lg:py-10 ">
@@ -29,7 +36,7 @@ function MyReservations() {
                         </div>
                     ))
                 ) : (
-                        <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow-sm border border-gray-100">
+                    <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow-sm border border-gray-100">
                         Aucune donnée disponible pour le moment.
                     </div>
                 )}
