@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import Modal from "react-responsive-modal"
 import 'react-responsive-modal/styles.css'
-import { HotelContext } from "../context/HotelContext";
 import { useNavigate } from "react-router-dom";
+import { useGetHotelById } from "../queries/hotels";
 
 type ConfirmationModalProps = {
     id: number,
@@ -13,23 +12,24 @@ type ConfirmationModalProps = {
 }
 
 function ConfirmationModal({ open, onClose, id, startDate, endDate }: ConfirmationModalProps) {
-    const ctx = useContext(HotelContext);
     const navigate = useNavigate();
-    if (!ctx) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
+    const { isPending, data, error } = useGetHotelById(id);
+    if (isPending) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Chargement des favoris...</p>
     }
-    const { hotels } = ctx;
-    const hotel = hotels.find(h => id === h.id);
+    if (error) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Erreur lors du chargement des favoris</p>
+    }
+
+    const hotel = data;
     if (!hotel) return null;
-
-
     const PriceTotal = () => {
         if (!endDate || !startDate) return;
         const one_day = 24 * 60 * 60 * 1000;
         const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / one_day);
+
         return nights * (hotel.price);
     }
-
     const goToReservation = () => {
         onClose();
         navigate("/my-reservations");
@@ -38,6 +38,7 @@ function ConfirmationModal({ open, onClose, id, startDate, endDate }: Confirmati
         if (!d) return '-';
         return d.toLocaleDateString("fr-FR");
     }
+
     return (
         <Modal
             open={open}

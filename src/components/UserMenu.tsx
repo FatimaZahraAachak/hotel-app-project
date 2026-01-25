@@ -10,7 +10,7 @@ export function UserMenu() {
     }
     const { logout } = authContext;
     const handleClick = () => {
-        logout();
+          logout();
         navigate("/login");
     }
     return (

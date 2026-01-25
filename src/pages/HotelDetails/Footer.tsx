@@ -12,8 +12,11 @@ type FooterProps = {
 function Footer({ hotel }: FooterProps) {
     const navigate = useNavigate();
     const authContext = useContext(AuthContext);
-    const { user } = authContext;
     const [open, setOpen] = useState<boolean>(false);
+    if (!authContext) {
+        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
+    }
+    const { user } = authContext;
     const onOpenModal = () => {
         if (user) {
             setOpen(true);
@@ -24,9 +27,6 @@ function Footer({ hotel }: FooterProps) {
     if (!authContext) {
         return <p>Erreur : FavoriteProvider manquant ⚠️</p>
     }
-
-
-
     return (
         <div className="rounded-2xl bg-white p-5 md:p-6 shadow-md lg:sticky lg:top-24">
             <div className="flex items-baseline gap-2">

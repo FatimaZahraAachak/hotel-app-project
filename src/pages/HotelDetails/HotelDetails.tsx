@@ -10,8 +10,6 @@ import Footer from "./Footer";
 
 export default function HotelDetails() {
     const ctx = useContext(HotelContext);
-
-
     const [hotel, setHotel] = useState<Hotel | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { id: _id } = useParams();

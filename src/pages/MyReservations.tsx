@@ -5,7 +5,7 @@ import { useReservations } from "../queries/reservations";
 
 function MyReservations() {
     const authContext = useContext(AuthContext);
-    const userId = authContext.user?.id;
+    const userId = authContext!.user?.id;
     const { isPending, data, error } = useReservations(userId);
     const reservations = data ?? [];
     const hasData = reservations.length > 0;

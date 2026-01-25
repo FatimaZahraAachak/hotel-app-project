@@ -1,4 +1,4 @@
-import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery, type InfiniteData } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
 import type { Hotel } from "../types";
 
@@ -26,4 +26,22 @@ export function useHotelsInfinite() {
         }
     });
 
+}
+async function getHotelById(hotelId: number): Promise<Hotel | null> {
+
+    const { data, error } = await supabase.from("hotel").select('*').eq('id', hotelId).single();
+    if (!data || error) return null;
+    return {
+        ...data,
+        amenities: data.amenities ?? []
+    };
+
+}
+export function useGetHotelById(hotelId: number) {
+    const { isPending, error, data } = useQuery({
+        queryKey: ["hotel", hotelId],
+        queryFn: () => getHotelById(hotelId),
+        enabled: !!hotelId
+    })
+    return { data, isPending, error };
 }

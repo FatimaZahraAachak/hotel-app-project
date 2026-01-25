@@ -4,9 +4,6 @@ import { createContext } from "react"
 type AuthContextValue = {
     user: User | null,
     loading: boolean,
-    logout?: () => Promise<void>
+    logout: () => void
 }
-export const AuthContext = createContext<AuthContextValue>({
-    user: null,
-    loading: false,
-})
+export const AuthContext = createContext<AuthContextValue | null>(null)
