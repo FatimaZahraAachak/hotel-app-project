@@ -1,18 +1,23 @@
-import { useContext } from "react";
-import { HotelContext } from "../context/HotelContext";
 import HotelCard from "./HotelCard/HotelCard";
+import { useHotelsInfinite } from "../queries/hotels";
+import type { Hotel } from "../types";
 
 function HotelsList() {
-    const hotelcontext = useContext(HotelContext);
-    if (!hotelcontext) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
-    }
-    const { hotels, page, setPage } = hotelcontext;
-    const hasData = hotels && hotels.length > 0;
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        status,
+    } = useHotelsInfinite();
+
+
+    const hotels: Hotel[] = data?.pages.flat() ?? [];
+    const hasData = hotels.length > 0;
     const handlRecharge = () => {
-        const newPage = page + 1;
-        setPage(newPage);
+        fetchNextPage();
     }
+    if (status === "pending") return <p>Chargement...</p>;
     return (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
@@ -25,12 +30,12 @@ function HotelsList() {
 
                     ))}
 
-                    <div className="col-span-full mt-4 flex justify-center " >
+                    {hasNextPage && (<div className="col-span-full mt-4 flex justify-center " >
                         <button className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-200" type='button' onClick={handlRecharge}>
-                            Voir plus
+                            {isFetchingNextPage ? "Chargement..." : "Voir plus"}
                             <span aria-hidden="true">→</span>
                         </button>
-                    </div>
+                    </div>)}
                 </>
             )
                 : (

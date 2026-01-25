@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
 import type { Hotel } from "../types";
 
@@ -14,7 +14,7 @@ async function loadHotels(page: number): Promise<Hotel[]> {
     return data ?? [];
 }
 export function useHotelsInfinite() {
-    return useInfiniteQuery<Hotel[], Error, Hotel[], ["hotels"], number>({
+    return useInfiniteQuery<Hotel[], Error, InfiniteData<Hotel[]>, ["hotels"], number>({
         queryKey: ["hotels"],
         initialPageParam: 0,
         queryFn: ({ pageParam = 0 }) => loadHotels(pageParam),
