@@ -1,21 +1,15 @@
 import { useContext } from "react";
 import HotelCard from "../components/HotelCard/HotelCard";
-import { HotelContext } from "../context/HotelContext";
 import { AuthContext } from "../context/AuthContext";
 import { useFavorites } from "../queries/favorites";
 
 function Favorites() {
-    const hotelContext = useContext(HotelContext);
     const authContext = useContext(AuthContext);
     const userId = authContext?.user?.id;
-    const { isPending, data, error } = useFavorites(userId);
-    const favoriteIds = data ? data.map(f => f.hotelId) : [];
-    if (!hotelContext) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
-    }
-    const { hotels } = hotelContext;
-    const hasData = favoriteIds && favoriteIds.length > 0;
-    const favoritesHotels = hotels.filter(h => favoriteIds.includes(h.id));
+    const { isPending, data = [], error } = useFavorites(userId);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const favoritesHotels = data.map(h => h.hotel as any);
     if (!authContext) {
         return <p>Erreur : AuthProvider manquant ⚠️</p>
     }
@@ -34,7 +28,7 @@ function Favorites() {
             </header>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {hasData ? (
+                {favoritesHotels.length ? (
                     favoritesHotels.map((fav) => (
                         <div key={fav.id} className="h-full">
                             <HotelCard hotel={fav} />

@@ -5,7 +5,7 @@ import { supabase } from "../services/supabase";
 async function loadFavorites(userId?: string) {
     const { data, error } = await supabase
         .from("favorites")
-        .select("hotelId")
+        .select("hotelId, hotel(*)")
         .eq("user_id", userId);
 
     if (error) {
