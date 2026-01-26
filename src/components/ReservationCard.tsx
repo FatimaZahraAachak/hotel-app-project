@@ -1,10 +1,8 @@
 import { useContext, useState } from "react";
-import { HotelContext } from "../context/HotelContext";
 import type { Reservation } from "../types"
 import { useNavigate } from "react-router-dom";
 import RemoveReservationModal from "./RemoveReservationModal";
 import { AuthContext } from "../context/AuthContext";
-
 type ReservationCardProps = {
     res: Reservation
 }
@@ -13,16 +11,13 @@ function ReservationCard({ res }: ReservationCardProps) {
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
     const navigate = useNavigate();
-    const ctx = useContext(HotelContext);
+
     const authContext = useContext(AuthContext);
     if (!authContext) {
         return <p>Erreur : authProvider manquant ⚠️</p>
     }
     const { user } = authContext;
-    if (!ctx) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
-    }
-
+    
     function formatDate(d: Date | null | string): string {
         if (!d) return '-';
         if (typeof d === 'string') {

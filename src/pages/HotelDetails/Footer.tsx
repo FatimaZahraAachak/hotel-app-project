@@ -25,8 +25,9 @@ function Footer({ hotel }: FooterProps) {
     }
     const onCloseModal = () => setOpen(false);
     if (!authContext) {
-        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
+        return <p>Erreur : AuthProvider manquant ⚠️</p>
     }
+
     return (
         <div className="rounded-2xl bg-white p-5 md:p-6 shadow-md lg:sticky lg:top-24">
             <div className="flex items-baseline gap-2">

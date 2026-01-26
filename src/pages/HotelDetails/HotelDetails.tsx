@@ -1,44 +1,24 @@
 import { Link, useParams } from "react-router-dom";
-import type { Hotel } from "../../types";
-import { useContext, useEffect, useState } from "react";
-import { HotelContext } from "../../context/HotelContext";
-
 import Header from "./Header";
 import Equipments from "./Equipments";
 import Informations from "./Informations";
 import Footer from "./Footer";
+import { useGetHotelById } from "../../queries/hotels";
 
 export default function HotelDetails() {
-    const ctx = useContext(HotelContext);
-    const [hotel, setHotel] = useState<Hotel | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+
     const { id: _id } = useParams();
     const id = Number(_id);
-
-    useEffect(() => {
-        if (!ctx) return;
-        const safeCtx=ctx;
-        async function loadHotel() {
-            const result = await safeCtx.getHotelById(id);
-            setHotel(result);
-            setLoading(false);
-        }
-        loadHotel();
-
-
-    }, [id, ctx])
-
-    if (!ctx) {
-        return <p>Erreur : HotelProvider manquant ⚠️</p>
+    const { isPending, data, error } = useGetHotelById(id);
+    if (isPending) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Chargement des favoris...</p>
     }
-
-    if (loading) {
-        return (
-            <div className="rounded-xl border p-6 text-center text-gray-500">
-                Chargement de l’hôtel...
-            </div>
-        );
+    if (error) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Erreur lors du chargement des favoris</p>
     }
+    const hotel = data;
+
+   
     if (!hotel) {
         return (
             <div className="mx-auto max-w-4xl px-4 py-16 md:px-6 text-center">
