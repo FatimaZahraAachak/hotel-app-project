@@ -1,37 +1,37 @@
-import { useContext } from "react";
-import { SearchContext } from "../context/SearchContext";
+
 import HotelCard from "./HotelCard/HotelCard";
+import { useFilterHotels } from "../queries/search";
+type HotelSearchResultsProps = {
+    searchTerm: string,
+    country: string
+}
 
-function HotelSearchResults() {
-    const searchcontext = useContext(SearchContext);
-    if (!searchcontext) {
-        return <p>Erreur : SearchProvider manquant ⚠️</p>
+function HotelSearchResults({ searchTerm, country }: HotelSearchResultsProps) {
+    const { isPending, data, error } = useFilterHotels({ searchTerm, country })
+
+    if (isPending) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Chargement des favoris...</p>
     }
-    const { loading, results } = searchcontext;
+    if (error) {
+        return <p className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">Erreur lors du chargement des favoris</p>
+    }
+    const hotels = data ?? [];
 
-    if (loading) {
-        return (
-            <div className="rounded-2xl bg-white p-8 text-center text-gray-600 shadow">
-                Chargement...
-            </div>
-        );
+    if (hotels.length === 0) {
+        <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">
+            Aucun resultat trouvé.
+        </div>
     }
 
-
-    const hasData = results.length > 0;
     return (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {hasData ? (
-                results.map((hotel) => (
+            {
+                hotels.map((hotel) => (
                     <div key={hotel.id} className="h-full">
                         <HotelCard hotel={hotel} />
                     </div>
-                ))
-            ) : (
-                <div className="col-span-full rounded-2xl bg-white p-8 text-center text-gray-600 shadow">
-                    Aucun resultat trouvé.
-                </div>
-            )}
+                ))}
+
         </div>
 
     );

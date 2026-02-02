@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { countries } from "../data/countries";
 
+
 function SearchBar() {
     const [inputValue, setInputValue] = useState<string>('');
     const [countryValue, setCountryValue] = useState<string>('');
@@ -11,13 +12,13 @@ function SearchBar() {
         return <p>Erreur : SearchProvider manquant ⚠️</p>
     }
 
-    const { setSearchTerm, setCountry, filterHotels, loading } = ctx;
+    const { setSearchTerm, setCountry } = ctx;
 
     const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSearchTerm(inputValue.trim());
         setCountry(countryValue.trim());
-        await filterHotels({ searchTerm: inputValue, country: countryValue });
+
 
     }
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +47,7 @@ focus:ring-blue-200" value={countryValue} onChange={handleChangeSelect}>
 
 
 
-            <button type="submit" className={`shrink-0 inline-flex items-center justify-center rounded-xl px-3 py-2 transition bg-blue-600 text-white hover:bg-blue-700`} aria-label="Rechercher" disabled={loading}>
+            <button type="submit" className={`shrink-0 inline-flex items-center justify-center rounded-xl px-3 py-2 transition bg-blue-600 text-white hover:bg-blue-700`} aria-label="Rechercher" >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

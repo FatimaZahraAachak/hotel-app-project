@@ -49,7 +49,7 @@ import SearchBar from "../components/SearchBar";
                     </p>
                 </header>
 
-                {hasQuery ? <HotelSearchResults /> : <HotelsList />}
+                {hasQuery ? <HotelSearchResults searchTerm={searchTerm} country={country} /> : <HotelsList />}
             </main>
         </div>
     );
