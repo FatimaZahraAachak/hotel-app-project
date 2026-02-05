@@ -33,4 +33,66 @@ describe("HotelCard", () => {
         expect(screen.getByText("Hotel Test")).toBeInTheDocument();
         expect(screen.getByText("Paris")).toBeInTheDocument();
     });
+    test("affiche le prix par nuit", () => {
+        render(
+            <AuthContext.Provider value={mockAuthContext}>
+                <BrowserRouter>
+                    <HotelCard hotel={mockHotel} />
+                </BrowserRouter>
+            </AuthContext.Provider>
+        );
+
+        expect(screen.getByText("120 € / nuit")).toBeInTheDocument();
+    });
+    test("affiche la note de l’hôtel", () => {
+        render(
+            <AuthContext.Provider value={mockAuthContext}>
+                <BrowserRouter>
+                    <HotelCard hotel={mockHotel} />
+                </BrowserRouter>
+            </AuthContext.Provider>
+        );
+
+        expect(screen.getAllByText("4.5").length).toBeGreaterThan(0);
+    });
+    test("affiche le bouton Voir plus", () => {
+        render(
+            <AuthContext.Provider value={mockAuthContext}>
+                <BrowserRouter>
+                    <HotelCard hotel={mockHotel} />
+                </BrowserRouter>
+            </AuthContext.Provider>
+        );
+
+        expect(
+            screen.getByRole("link", { name: /voir plus/i })
+        ).toBeInTheDocument();
+    });
+    test("le bouton Voir plus mène vers la page de l’hôtel", () => {
+        render(
+            <AuthContext.Provider value={mockAuthContext}>
+                <BrowserRouter>
+                    <HotelCard hotel={mockHotel} />
+                </BrowserRouter>
+            </AuthContext.Provider>
+        );
+
+        const link = screen.getByRole("link", { name: /voir plus/i });
+        expect(link).toHaveAttribute("href", "/hotels/1");
+    });
+    test("n’affiche pas le bouton favoris si l’utilisateur n’est pas connecté", () => {
+        render(
+            <AuthContext.Provider value={mockAuthContext}>
+                <BrowserRouter>
+                    <HotelCard hotel={mockHotel} />
+                </BrowserRouter>
+            </AuthContext.Provider>
+        );
+
+        expect(
+            screen.queryByLabelText(/favori|favorite/i)
+        ).not.toBeInTheDocument();
+    });
+
+
 });
