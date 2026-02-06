@@ -5,7 +5,8 @@ type HeaderProps = {
     hotel: Hotel
 }
 
-function Header({ hotel }: HeaderProps) {
+function 
+Header({ hotel }: HeaderProps) {
     return (
         <div>
             <div className="mb-5 md:mb-6 flex items-center gap-2 text-sm">
