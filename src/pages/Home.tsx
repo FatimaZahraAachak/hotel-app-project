@@ -44,7 +44,7 @@ import SearchBar from "../components/SearchBar";
 
                     <p className="mt-1 text-sm text-gray-600">
                         {hasQuery
-                            ? `Résultats pour “${label}”`
+                            ? `Résultats pour ${label}`
                             : "Découvrez notre sélection du moment."}
                     </p>
                 </header>

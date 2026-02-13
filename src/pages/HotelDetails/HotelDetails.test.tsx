@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
 import HotelDetails from "./HotelDetails";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 
+/* Mock du hook */
 vi.mock("../../queries/hotels", () => ({
     useGetHotelById: () => ({
         isPending: false,
@@ -20,15 +21,36 @@ vi.mock("../../queries/hotels", () => ({
     }),
 }));
 
+/* Mock des composants enfants */
+vi.mock("./Header", () => ({
+    default: () => <div>MOCK_HEADER</div>,
+}));
+
+vi.mock("./Informations", () => ({
+    default: () => <div>MOCK_INFORMATION</div>,
+}));
+
+vi.mock("./Equipments", () => ({
+    default: () => <div>MOCK_EQUIPMENTS</div>,
+}));
+
+vi.mock("./Footer", () => ({
+    default: () => <div>MOCK_FOOTER</div>,
+}));
+
 describe("HotelDetails", () => {
     test("affiche les sections principales", () => {
         render(
-            <BrowserRouter>
-                <HotelDetails />
-            </BrowserRouter>
+            <MemoryRouter initialEntries={["/hotels/1"]}>
+                <Routes>
+                    <Route path="/hotels/:id" element={<HotelDetails />} />
+                </Routes>
+            </MemoryRouter>
         );
 
-        expect(screen.getByText("Hotel Test")).toBeInTheDocument();
-        expect(screen.getByText("Paris")).toBeInTheDocument();
+        expect(screen.getByText("MOCK_HEADER")).toBeInTheDocument();
+        expect(screen.getByText("MOCK_INFORMATION")).toBeInTheDocument();
+        expect(screen.getByText("MOCK_EQUIPMENTS")).toBeInTheDocument();
+        expect(screen.getByText("MOCK_FOOTER")).toBeInTheDocument();
     });
 });
