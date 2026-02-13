@@ -23,6 +23,9 @@ describe("Home", () => {
         expect(screen.getByText("Recherchez les meilleurs hôtels et profitez des meilleures offres.")).toBeInTheDocument();
         expect(screen.getByText("Hôtels populaires")).toBeInTheDocument();
         expect(screen.getByText("Découvrez notre sélection du moment.")).toBeInTheDocument();
+        expect(screen.queryByText("Résultats")).not.toBeInTheDocument();
+        expect(screen.queryByText(/Résultats pour/i)).not.toBeInTheDocument();
+
     });
 
     test("Au moins l’un des deux est rempli ", () => {
@@ -35,6 +38,11 @@ describe("Home", () => {
         expect(screen.getByText("Recherchez les meilleurs hôtels et profitez des meilleures offres.")).toBeInTheDocument();
         expect(screen.getByText("Résultats")).toBeInTheDocument();
         expect(screen.getByText("Résultats pour France")).toBeInTheDocument();
+        expect(screen.queryByText("Hôtels populaires")).not.toBeInTheDocument();
+        expect(
+            screen.queryByText(/Découvrez notre sélection du moment/i)
+        ).not.toBeInTheDocument();
+
     });
     test("CONTEXTE MANQUANT ", () => {
         render(
