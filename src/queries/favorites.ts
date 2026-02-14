@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
+import type { Hotel } from "../types";
 
 
 async function loadFavorites(userId?: string) {
@@ -11,7 +12,7 @@ async function loadFavorites(userId?: string) {
     if (error) {
         throw error;
     }
-    return data;
+    return data as unknown as { hotelId: number, hotel: Hotel }[];
 }
 
 
