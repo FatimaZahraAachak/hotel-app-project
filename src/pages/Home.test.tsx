@@ -46,9 +46,7 @@ describe("Home", () => {
     });
     test("CONTEXTE MANQUANT ", () => {
         render(
-
             <Home />
-
         );
         expect(screen.getByText("Erreur : SearchProvider manquant ⚠️")).toBeInTheDocument();
 

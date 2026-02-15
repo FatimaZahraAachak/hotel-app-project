@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../services/supabase";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { SignUpConfirmation } from "./SignUpConfirmation";
 import { getSignUpErrorMessage, isValidEmail, isValidPassword } from "../utils/validators";
 
