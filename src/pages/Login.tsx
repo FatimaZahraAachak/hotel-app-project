@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { supabase } from "../services/supabase";
-import { Link, Navigate } from "react-router";
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { getLoginErrorMessage, isValidEmail } from "../utils/validators";
+
 
 
 

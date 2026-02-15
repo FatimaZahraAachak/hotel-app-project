@@ -55,6 +55,8 @@ describe("Favorites", () => {
             </AuthContext.Provider >
         );
         expect(screen.getByText("Chargement des favoris...")).toBeInTheDocument();
+        expect(screen.queryByText("Hôtels Favoris")).not.toBeInTheDocument();
+
 
     });
     test("SCÉNARIO 2 — Erreur ", () => {
@@ -69,6 +71,8 @@ describe("Favorites", () => {
             </AuthContext.Provider >
         );
         expect(screen.getByText("Erreur lors du chargement des favoris")).toBeInTheDocument();
+        expect(screen.queryByText("Hôtels Favoris")).not.toBeInTheDocument();
+
 
     });
     test("SCÉNARIO 3 — Data vide", () => {
@@ -105,6 +109,10 @@ describe("Favorites", () => {
         );
         expect(screen.getByText("Hôtels Favoris")).toBeInTheDocument();
         expect(screen.getAllByText("MOCK_HOTEL_CARD")).toHaveLength(2);
+        expect(
+            screen.queryByText("Aucune donnée disponible pour le moment.")
+        ).not.toBeInTheDocument();
+
     });
 
     test("CONTEXTE MANQUANT", () => {
