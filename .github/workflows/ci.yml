@@ -22,3 +22,9 @@ jobs:
       - name: Installer les dépendances
         run: npm install
 
+      - name: lancer le build
+        run: npm run build
+
+      - name: lancer les tests
+        run: npm run test
+   
