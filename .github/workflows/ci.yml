@@ -27,4 +27,7 @@ jobs:
 
       - name: lancer les tests
         run: npm run test
+
+      - name: ESLint dans le pipeline
+        run: npm run lint
    
