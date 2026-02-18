@@ -14,28 +14,31 @@ const mockHotel: Hotel = {
     amenities: ["WiFi", "Piscine", "Climatisation"],
 };
 
-
 describe("Informations", () => {
-    test("affiche le nom, la localisation et description de l'hotel", () => {
-        render(
-            < Informations hotel={mockHotel} />
-        );
-        expect(screen.getByText("Hotel Test")).toBeInTheDocument();
-        expect(screen.getByText("Paris")).toBeInTheDocument();
-        expect(screen.getByText("Un hôtel de test pour les tests unitaires")).toBeInTheDocument();
+    test("affiche les informations principales", () => {
+        render(<Informations hotel={mockHotel} />);
+
+        expect(screen.getByTestId("hotel-name"))
+            .toHaveTextContent("Hotel Test");
+
+        expect(screen.getByTestId("hotel-location"))
+            .toHaveTextContent("Paris");
+
+        expect(screen.getByTestId("hotel-description"))
+            .toHaveTextContent("Un hôtel de test pour les tests unitaires");
     });
 
-    
-    test("affiche la note de l'hotel", () => {
-        render(
-            < Informations hotel={mockHotel} />
-        );
-        expect(screen.getAllByText("4.5").length).toBeGreaterThan(0);
+    test("affiche la note correctement formatée", () => {
+        render(<Informations hotel={mockHotel} />);
+
+        expect(screen.getByTestId("hotel-rating"))
+            .toHaveTextContent("4.5");
     });
-    test("affiche le prix par nuit  ", () => {
-        render(
-            < Informations hotel={mockHotel} />
-        );
-        expect(screen.getByText("120 € / nuit")).toBeInTheDocument();
+
+    test("affiche le prix par nuit", () => {
+        render(<Informations hotel={mockHotel} />);
+
+        expect(screen.getByTestId("hotel-price"))
+            .toHaveTextContent("120 € / nuit");
     });
 });
