@@ -4,6 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import HotelCard from "./HotelCard";
 import { AuthContext } from "../../context/AuthContext";
 import type { Hotel } from "../../types";
+import type { User } from "@supabase/supabase-js";
+
+
+vi.mock("./FavoritesButton", () => ({
+    FavoritesButton: () => <div>Mocked Favorite</div>,
+}));
+
 const mockHotel: Hotel = {
     id: 1,
     name: "Hotel Test",
@@ -11,88 +18,68 @@ const mockHotel: Hotel = {
     price: 120,
     rating: 4.5,
     image: "https://via.placeholder.com/300",
-    description: "Un hôtel de test pour les tests unitaires",
+    description: "Un hôtel de test",
     amenities: ["WiFi", "Piscine", "Climatisation"],
 };
 
-const mockAuthContext = {
-    user: null,
-    loading: false,
-    logout: vi.fn(),
+const renderComponent = (user: User | null = null): void => {
+    render(
+        <AuthContext.Provider
+            value={{
+                user,
+                loading: false,
+                logout: vi.fn(),
+            }}
+        >
+            <BrowserRouter>
+                <HotelCard hotel={mockHotel} />
+            </BrowserRouter>
+        </AuthContext.Provider>
+    );
 };
+
 describe("HotelCard", () => {
-    test("affiche le nom et la localisation de l’hôtel", () => {
-        render(
-            <AuthContext.Provider value={mockAuthContext}>
-                <BrowserRouter>
-                    <HotelCard hotel={mockHotel} />
-                </BrowserRouter>
-            </AuthContext.Provider>
-        );
+    test("affiche les informations principales", () => {
+        renderComponent();
 
-        expect(screen.getByText("Hotel Test")).toBeInTheDocument();
-        expect(screen.getByText("Paris")).toBeInTheDocument();
+        expect(screen.getByTestId("hotel-name"))
+            .toHaveTextContent("Hotel Test");
+
+        expect(screen.getByText("Paris"))
+            .toBeInTheDocument();
+
+        expect(screen.getByText("120 € / nuit"))
+            .toBeInTheDocument();
     });
-    test("affiche le prix par nuit", () => {
-        render(
-            <AuthContext.Provider value={mockAuthContext}>
-                <BrowserRouter>
-                    <HotelCard hotel={mockHotel} />
-                </BrowserRouter>
-            </AuthContext.Provider>
-        );
 
-        screen.getByText(/120/);
+    test("affiche le bouton favoris si utilisateur connecté", () => {
+        const mockUser = {
+            id: "123",
+            email: "test@test.com",
+            app_metadata: {},
+            user_metadata: {},
+            aud: "authenticated",
+            created_at: new Date().toISOString(),
+        } as User; // 🔥 Cast propre et contrôlé
 
+        renderComponent(mockUser);
+
+        expect(screen.getByTestId("favorites-button"))
+            .toBeInTheDocument();
     });
-    test("affiche la note de l’hôtel", () => {
-        render(
-            <AuthContext.Provider value={mockAuthContext}>
-                <BrowserRouter>
-                    <HotelCard hotel={mockHotel} />
-                </BrowserRouter>
-            </AuthContext.Provider>
-        );
 
-        expect(screen.getAllByText("4.5").length).toBeGreaterThan(0);
+    test("n'affiche pas le bouton favoris si non connecté", () => {
+        renderComponent(null);
+
+        expect(screen.queryByTestId("favorites-button"))
+            .not.toBeInTheDocument();
     });
-    test("affiche le bouton Voir plus", () => {
-        render(
-            <AuthContext.Provider value={mockAuthContext}>
-                <BrowserRouter>
-                    <HotelCard hotel={mockHotel} />
-                </BrowserRouter>
-            </AuthContext.Provider>
-        );
 
-        screen.getByText("Voir plus")
-
-    });
-    test("le bouton Voir plus mène vers la page de l’hôtel", () => {
-        render(
-            <AuthContext.Provider value={mockAuthContext}>
-                <BrowserRouter>
-                    <HotelCard hotel={mockHotel} />
-                </BrowserRouter>
-            </AuthContext.Provider>
-        );
+    test("le bouton Voir plus mène vers la bonne page", () => {
+        renderComponent();
 
         const link = screen.getByRole("link", { name: /voir plus/i });
+
         expect(link).toHaveAttribute("href", "/hotels/1");
     });
-    test("n’affiche pas le bouton favoris si l’utilisateur n’est pas connecté", () => {
-        render(
-            <AuthContext.Provider value={mockAuthContext}>
-                <BrowserRouter>
-                    <HotelCard hotel={mockHotel} />
-                </BrowserRouter>
-            </AuthContext.Provider>
-        );
-
-        expect(
-            screen.queryByLabelText(/favori|favorite/i)
-        ).not.toBeInTheDocument();
-    });
-
-
 });

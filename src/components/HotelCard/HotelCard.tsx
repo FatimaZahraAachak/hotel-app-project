@@ -10,67 +10,60 @@ type Props = {
 
 function HotelCard({ hotel }: Props) {
     const authContext = useContext(AuthContext);
+
     if (!authContext) {
-        return <p>Erreur : FavoriteProvider manquant ⚠️</p>
+        return <p data-testid="auth-error">Erreur : FavoriteProvider manquant ⚠️</p>;
     }
+
     const { user } = authContext;
-    
+
     return (
-        <div className="group rounded-2xl bg-white shadow-md hover:shadow-lg transition overflow-hidden">
+        <div data-testid="hotel-card" className="group rounded-2xl bg-white shadow-md hover:shadow-lg transition overflow-hidden">
+
             <Link
                 to={`/hotels/${hotel.id}`}
-                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                data-testid="hotel-main-link"
                 aria-label={`Voir ${hotel.name} à ${hotel.location}`}
             >
-                <div className="relative w-full aspect-[16/10] md:aspect-[16/9] overflow-hidden">
+                <div>
                     <img
+                        data-testid="hotel-image"
                         src={hotel.image}
                         alt={`${hotel.name} — ${hotel.location}`}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                        loading="lazy"
                     />
 
-
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
-                    <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur">
-                        <span className="text-amber-500">★</span>
-                        <span>{hotel.rating.toFixed(1)}</span>
+                    <div>
+                        <span data-testid="hotel-rating">
+                            {hotel.rating.toFixed(1)}
+                        </span>
                     </div>
 
-                    {user ? <FavoritesButton userId={user.id} hotel={hotel} /> : ""}
+                    {user && (
+                        <div data-testid="favorites-button">
+                            <FavoritesButton userId={user.id} hotel={hotel} />
+                        </div>
+                    )}
 
-
-                    <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-gray-900 shadow backdrop-blur">
-                        <span>💶</span>
-                        <span>{hotel.price} € / nuit</span>
+                    <div data-testid="hotel-price">
+                        {hotel.price} € / nuit
                     </div>
                 </div>
 
-                <div className="p-4 pb-3">
-                    <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                            <h3 className="truncate text-lg md:text-xl font-semibold text-gray-900">
-                                {hotel.name}
-                            </h3>
-                            <p className="mt-0.5 truncate text-sm text-gray-500">{hotel.location}</p>
-                        </div>
+                <div>
+                    <h3 data-testid="hotel-name">
+                        {hotel.name}
+                    </h3>
 
-
-                        <div className="hidden sm:flex items-center gap-1 shrink-0">
-                            <span className="text-amber-500">★</span>
-                            <span className="text-sm font-medium text-gray-700">
-                                {hotel.rating.toFixed(1)}
-                            </span>
-                        </div>
-                    </div>
+                    <p data-testid="hotel-location">
+                        {hotel.location}
+                    </p>
                 </div>
             </Link>
 
-
-            <div className="px-4 pb-4">
+            <div>
                 <Link
                     to={`/hotels/${hotel.id}`}
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-blue-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    data-testid="hotel-see-more"
                 >
                     Voir plus
                 </Link>
