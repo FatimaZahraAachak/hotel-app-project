@@ -21,16 +21,23 @@ export function FavoritesButton({ hotel, userId }: Props) {
 
     }
     return (
-        <div className="absolute right-3 top-3 inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur">
+        <div
+            className="absolute right-3 top-3 inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-800 shadow-sm backdrop-blur"
+        >
             <button
+                type="button"
+                data-testid="favorite-toggle"
+                aria-label={isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
                 onClick={onFavoriteClick}
-                className={
-                    `transition text-base
-       ${isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-400"}`
-                }
+                className={`text-base transition-colors duration-200
+        ${isFavorite
+                        ? "text-red-500"
+                        : "text-gray-400 hover:text-red-400"
+                    }`}
             >
                 ♥
             </button>
         </div>
-    )
+    );
+
 }
