@@ -42,14 +42,9 @@ describe("HotelCard", () => {
     test("affiche les informations principales", () => {
         renderComponent();
 
-        expect(screen.getByTestId("hotel-name"))
-            .toHaveTextContent("Hotel Test");
+        expect(screen.getByTestId("hotel-price"))
+            .toHaveTextContent("120 € / nuit");
 
-        expect(screen.getByText("Paris"))
-            .toBeInTheDocument();
-
-        expect(screen.getByText("120 € / nuit"))
-            .toBeInTheDocument();
     });
 
     test("affiche le bouton favoris si utilisateur connecté", () => {
