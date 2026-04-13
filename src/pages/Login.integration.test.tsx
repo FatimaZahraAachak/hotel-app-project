@@ -103,7 +103,8 @@ describe("Login - INTÉGRATION", () => {
         };
 
         mockSignIn.mockResolvedValueOnce({
-            data: { user: mockUser, session: null as any },
+            // @ts-expect-error - Mock Supabase response structure
+            data: { user: mockUser, session: null },
             error: null,
         });
 
